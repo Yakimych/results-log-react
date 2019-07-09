@@ -1,12 +1,12 @@
 import React from "react";
 import "./App.css";
-import AddResultQuery from "./AddResult";
+import { AddResult } from "./AddResult";
 
 const App: React.FC = () => {
   return (
     <div className="App">
       <header className="App-header">Result log</header>
-      <AddResultQuery />
+      <AddResult />
     </div>
   );
 };
