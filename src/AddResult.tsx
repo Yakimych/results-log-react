@@ -1,28 +1,10 @@
 import CreatableSelect from "react-select/creatable";
-import { gql } from "apollo-boost";
 import * as React from "react";
 import { useState } from "react";
 import { ValueType } from "react-select/src/types";
 import { Option } from "react-select/src/filters";
 import { useQuery } from "react-apollo-hooks";
-
-const ALL_PLAYERS_QUERY = gql`
-  {
-    players {
-      id
-      name
-    }
-  }
-`;
-
-type Player = {
-  id: number;
-  name: string;
-};
-
-type PlayersQueryResult = {
-  players: readonly Player[];
-};
+import { PlayersQueryResponse, ALL_PLAYERS_QUERY } from "./queries";
 
 const validNumber = (goalsString: string) => {
   const goalsNumber = Number(goalsString);
@@ -30,7 +12,7 @@ const validNumber = (goalsString: string) => {
 };
 
 export const AddResult: React.FC = () => {
-  const { data, error, loading } = useQuery<PlayersQueryResult>(
+  const { data, error, loading } = useQuery<PlayersQueryResponse>(
     ALL_PLAYERS_QUERY
   );
 
