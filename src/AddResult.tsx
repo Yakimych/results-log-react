@@ -3,7 +3,7 @@ import * as React from "react";
 import { useState } from "react";
 import { ValueType } from "react-select/src/types";
 import { Option } from "react-select/src/filters";
-import { useQuery } from "react-apollo-hooks";
+import { useQuery, useMutation } from "react-apollo-hooks";
 import { PlayersQueryResponse, ALL_PLAYERS_QUERY } from "./queries";
 import {
   Paper,
@@ -12,6 +12,7 @@ import {
   Checkbox,
   FormControlLabel
 } from "@material-ui/core";
+import { ADD_RESULT_MUTATION } from "./mutations";
 
 const formatDate = (date: Date) => date.toISOString().substring(0, 10);
 
@@ -20,17 +21,48 @@ const validNumberOfGoals = (goalsString: string) => {
   return isNaN(goalsNumber) ? 0 : Math.max(Math.floor(goalsNumber), 0);
 };
 
+// TODO: Remove as soon as the value gets picked out from the URL
+const COMMUNITY_NAME = process.env.REACT_APP_COMMUNITY_NAME;
+
 export const AddResult: React.FC = () => {
   const { data, error, loading } = useQuery<PlayersQueryResponse>(
     ALL_PLAYERS_QUERY,
-    { variables: { communityname: "anturahockey" } }
+    { variables: { communityname: COMMUNITY_NAME } }
   );
+
+  const [addResultMutation] = useMutation(ADD_RESULT_MUTATION);
 
   const [player1, setPlayer1] = useState<ValueType<Option>>(null);
   const [goals1, setGoals1] = useState<number>(0);
 
   const [player2, setPlayer2] = useState<ValueType<Option>>(null);
   const [goals2, setGoals2] = useState<number>(0);
+
+  const [extraTime, setExtraTime] = useState<boolean>(false);
+  const toggleExtraTime = () => setExtraTime(oldExtraTime => !oldExtraTime);
+
+  const [date, setDate] = useState<Date>(new Date());
+
+  const addResult = () => {
+    if (player1 && player2) {
+      const variables = {
+        variables: {
+          communityname: COMMUNITY_NAME,
+          player1name: (player1 as Option).value, // TODO: Stop using react-select
+          player2name: (player2 as Option).value,
+          date: date,
+          player1goals: goals1,
+          player2goals: goals2,
+          extratime: extraTime
+        }
+      };
+      console.log("variables: ", variables);
+      addResultMutation(
+        // TODO: Is there a way to type the variables object?
+        variables
+      );
+    }
+  };
 
   if (loading) return <p>Loading...</p>;
   if (error) return <p>Error!</p>;
@@ -84,15 +116,25 @@ export const AddResult: React.FC = () => {
           onChange={selectedPlayer => setPlayer2(selectedPlayer)}
         />
         <FormControlLabel
-          control={<Checkbox color="default" />}
+          control={
+            <Checkbox
+              color="default"
+              checked={extraTime}
+              onClick={toggleExtraTime}
+            />
+          }
           label="Extra Time"
         />
       </div>
       <div style={{ display: "flex", justifyContent: "space-between" }}>
-        <Button variant="contained" color="primary">
+        <Button variant="contained" color="primary" onClick={addResult}>
           Submit
         </Button>
-        <TextField type="date" defaultValue={formatDate(new Date())} />
+        <TextField
+          type="date"
+          value={formatDate(date)}
+          onChange={e => setDate(new Date(e.target.value))}
+        />
       </div>
     </Paper>
   );

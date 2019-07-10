@@ -33,7 +33,7 @@ const containerStyle = {
 export const Results: React.FC = () => {
   const { data, error, loading } = useQuery<ResultsQueryResponse>(
     ALL_RESULTS_QUERY,
-    { variables: { communityname: "anturahockey" } }
+    { variables: { communityname: process.env.REACT_APP_COMMUNITY_NAME } }
   );
 
   if (loading) return <p>Loading...</p>;
