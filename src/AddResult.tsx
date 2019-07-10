@@ -82,13 +82,14 @@ export const AddResult: React.FC = () => {
   }));
 
   return (
-    <Paper style={{ width: 600, marginBottom: 30 }}>
+    <Paper style={{ width: 650, marginBottom: 30 }}>
       <div style={{ display: "flex" }}>
         <CreatableSelect
           styles={{
             control: styles => ({
               ...styles,
-              width: 200
+              width: 200,
+              height: 50
             })
           }}
           placeholder="Player1"
@@ -98,14 +99,14 @@ export const AddResult: React.FC = () => {
         />
         <TextField
           type="number"
-          style={{ width: 60 }}
+          style={{ width: 80 }}
           variant="outlined"
           value={goals1}
           onChange={e => setGoals1(validNumberOfGoals(e.target.value))}
         />
         <TextField
           type="number"
-          style={{ width: 60 }}
+          style={{ width: 80 }}
           variant="outlined"
           value={goals2}
           onChange={e => setGoals2(validNumberOfGoals(e.target.value))}
@@ -114,7 +115,8 @@ export const AddResult: React.FC = () => {
           styles={{
             control: styles => ({
               ...styles,
-              width: 200
+              width: 200,
+              height: 50
             })
           }}
           placeholder="Player2"

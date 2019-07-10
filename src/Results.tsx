@@ -27,7 +27,7 @@ const dateStyle = {
 };
 
 const containerStyle = {
-  width: 550
+  width: 650
 };
 
 export const Results: React.FC = () => {
