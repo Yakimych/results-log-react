@@ -82,7 +82,10 @@ export const AddResult: React.FC = () => {
           options={options}
           onChange={selectedPlayer => setPlayer2(selectedPlayer)}
         />
-        <FormControlLabel control={<Checkbox color="default" />} label="ET" />
+        <FormControlLabel
+          control={<Checkbox color="default" />}
+          label="Extra Time"
+        />
       </div>
       <div style={{ display: "flex", justifyContent: "space-between" }}>
         <Button variant="contained" color="primary">
