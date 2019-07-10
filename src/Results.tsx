@@ -32,7 +32,8 @@ const containerStyle = {
 
 export const Results: React.FC = () => {
   const { data, error, loading } = useQuery<ResultsQueryResponse>(
-    ALL_RESULTS_QUERY
+    ALL_RESULTS_QUERY,
+    { variables: { communityname: "anturahockey" } }
   );
 
   if (loading) return <p>Loading...</p>;

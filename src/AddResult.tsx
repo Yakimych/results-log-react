@@ -22,7 +22,8 @@ const validNumberOfGoals = (goalsString: string) => {
 
 export const AddResult: React.FC = () => {
   const { data, error, loading } = useQuery<PlayersQueryResponse>(
-    ALL_PLAYERS_QUERY
+    ALL_PLAYERS_QUERY,
+    { variables: { communityname: "anturahockey" } }
   );
 
   const [player1, setPlayer1] = useState<ValueType<Option>>(null);
