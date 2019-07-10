@@ -45,7 +45,7 @@ export const AddResult: React.FC = () => {
 
   const addResult = () => {
     if (player1 && player2) {
-      const variables = {
+      addResultMutation({
         variables: {
           communityname: COMMUNITY_NAME,
           player1name: (player1 as Option).value, // TODO: Stop using react-select
@@ -55,12 +55,7 @@ export const AddResult: React.FC = () => {
           player2goals: goals2,
           extratime: extraTime
         }
-      };
-      console.log("variables: ", variables);
-      addResultMutation(
-        // TODO: Is there a way to type the variables object?
-        variables
-      );
+      });
     }
   };
 
