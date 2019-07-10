@@ -4,7 +4,11 @@ import { useState } from "react";
 import { ValueType } from "react-select/src/types";
 import { Option } from "react-select/src/filters";
 import { useQuery, useMutation } from "react-apollo-hooks";
-import { PlayersQueryResponse, ALL_PLAYERS_QUERY } from "./queries";
+import {
+  PlayersQueryResponse,
+  ALL_PLAYERS_QUERY,
+  ALL_RESULTS_QUERY
+} from "./queries";
 import {
   Paper,
   TextField,
@@ -22,15 +26,23 @@ const validNumberOfGoals = (goalsString: string) => {
 };
 
 // TODO: Remove as soon as the value gets picked out from the URL
-const COMMUNITY_NAME = process.env.REACT_APP_COMMUNITY_NAME;
+const communityname = process.env.REACT_APP_COMMUNITY_NAME;
 
 export const AddResult: React.FC = () => {
   const { data, error, loading } = useQuery<PlayersQueryResponse>(
     ALL_PLAYERS_QUERY,
-    { variables: { communityname: COMMUNITY_NAME } }
+    { variables: { communityname } }
   );
 
-  const [addResultMutation] = useMutation(ADD_RESULT_MUTATION);
+  const [addResultMutation] = useMutation(ADD_RESULT_MUTATION, {
+    refetchQueries: [
+      {
+        query: ALL_PLAYERS_QUERY,
+        variables: { communityname }
+      },
+      { query: ALL_RESULTS_QUERY, variables: { communityname } }
+    ]
+  });
 
   const [player1, setPlayer1] = useState<ValueType<Option>>(null);
   const [goals1, setGoals1] = useState<number>(0);
@@ -47,7 +59,7 @@ export const AddResult: React.FC = () => {
     if (player1 && player2) {
       addResultMutation({
         variables: {
-          communityname: COMMUNITY_NAME,
+          communityname,
           player1name: (player1 as Option).value, // TODO: Stop using react-select
           player2name: (player2 as Option).value,
           date: date,
