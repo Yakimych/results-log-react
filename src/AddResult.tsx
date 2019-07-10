@@ -28,6 +28,9 @@ export const AddResult: React.FC = () => {
   const [player1, setPlayer1] = useState<ValueType<Option>>(null);
   const [goals1, setGoals1] = useState<number>(0);
 
+  const [player2, setPlayer2] = useState<ValueType<Option>>(null);
+  const [goals2, setGoals2] = useState<number>(0);
+
   if (loading) return <p>Loading...</p>;
   if (error) return <p>Error!</p>;
   if (data === undefined) return <p>Data is undefined</p>;
@@ -64,8 +67,8 @@ export const AddResult: React.FC = () => {
           type="number"
           style={{ width: 60 }}
           variant="outlined"
-          value={goals1}
-          onChange={e => setGoals1(validNumberOfGoals(e.target.value))}
+          value={goals2}
+          onChange={e => setGoals2(validNumberOfGoals(e.target.value))}
         />
         <CreatableSelect
           styles={{
@@ -75,9 +78,9 @@ export const AddResult: React.FC = () => {
             })
           }}
           placeholder="Player2"
-          value={player1}
+          value={player2}
           options={options}
-          onChange={selectedPlayer => setPlayer1(selectedPlayer)}
+          onChange={selectedPlayer => setPlayer2(selectedPlayer)}
         />
         <FormControlLabel control={<Checkbox color="default" />} label="ET" />
       </div>
