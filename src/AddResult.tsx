@@ -50,12 +50,39 @@ export const AddResult: React.FC = () => {
   const [date, setDate] = useState<Date>(new Date());
 
   const addResult = () => {
+    if (
+      !player1 ||
+      (player1 as Option).value.length === 0 ||
+      !player2 ||
+      (player2 as Option).value.length === 0
+    ) {
+      alert("You must select both players!");
+      return;
+    }
+
+    if (goals1 === goals2) {
+      alert("A game cannot end in a draw!");
+      return;
+    }
+
+    if (Math.abs(goals1 - goals2) !== 1 && extraTime === true) {
+      alert("Games with Extra Time canno have more than one goal difference!");
+      return;
+    }
+
     if (player1 && player2) {
+      const player1name = (player1 as Option).value;
+      const player2name = (player2 as Option).value;
+      if (player1name === player2name) {
+        alert("You must select two DIFFERENT players!");
+        return;
+      }
+
       addResultMutation({
         variables: {
           communityname,
-          player1name: (player1 as Option).value, // TODO: Stop using react-select
-          player2name: (player2 as Option).value,
+          player1name,
+          player2name,
           date: date,
           player1goals: goals1,
           player2goals: goals2,
