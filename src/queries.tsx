@@ -30,6 +30,7 @@ export const ALL_RESULTS_QUERY = gql`
       }
       player2goals
       player1goals
+      extratime
       date
       id
     }
@@ -43,6 +44,7 @@ type Result = {
   player1goals: number;
   player2goals: number;
   date: Date;
+  extratime: boolean;
 };
 
 export type ResultsQueryResponse = {

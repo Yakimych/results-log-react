@@ -30,6 +30,10 @@ const dateStyle: React.CSSProperties = {
   width: 100
 };
 
+const extraTimeStyle: React.CSSProperties = {
+  width: 20
+};
+
 const containerStyle: React.CSSProperties = {
   width: 650
 };
@@ -54,6 +58,9 @@ export const Results: React.FC = () => {
             <TableCell style={colonStyle} />
             <TableCell style={goalsStyle}>G2</TableCell>
             <TableCell>Player2</TableCell>
+            <TableCell style={extraTimeStyle} align="right">
+              E
+            </TableCell>
             <TableCell style={dateStyle}>Date</TableCell>
           </TableRow>
         </TableHead>
@@ -73,6 +80,7 @@ export const Results: React.FC = () => {
                 <TableCell style={getPlayerStyle(player2Won)}>
                   {r.player2.name}
                 </TableCell>
+                <TableCell align="right">{r.extratime ? "X" : ""}</TableCell>
                 <TableCell>{r.date}</TableCell>
               </TableRow>
             );
