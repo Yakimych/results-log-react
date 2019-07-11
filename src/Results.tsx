@@ -10,23 +10,27 @@ import {
   TableBody
 } from "@material-ui/core";
 
-const goalsStyle = {
+const getPlayerStyle = (isWinningPlayer: boolean): React.CSSProperties => ({
+  fontWeight: isWinningPlayer ? "bold" : "normal"
+});
+
+const goalsStyle: React.CSSProperties = {
   width: 20,
   paddingLeft: 10,
   paddingRight: 0
 };
 
-const colonStyle = {
+const colonStyle: React.CSSProperties = {
   width: 5,
   paddingLeft: 0,
   paddingRight: 0
 };
 
-const dateStyle = {
+const dateStyle: React.CSSProperties = {
   width: 100
 };
 
-const containerStyle = {
+const containerStyle: React.CSSProperties = {
   width: 650
 };
 
@@ -54,16 +58,25 @@ export const Results: React.FC = () => {
           </TableRow>
         </TableHead>
         <TableBody>
-          {data.results.map(r => (
-            <TableRow key={r.id}>
-              <TableCell align="right">{r.player1.name}</TableCell>
-              <TableCell style={goalsStyle}>{r.player1goals}</TableCell>
-              <TableCell style={colonStyle}> : </TableCell>
-              <TableCell style={goalsStyle}>{r.player2goals}</TableCell>
-              <TableCell>{r.player2.name}</TableCell>
-              <TableCell>{r.date}</TableCell>
-            </TableRow>
-          ))}
+          {data.results.map(r => {
+            const player1Won = r.player1goals > r.player2goals;
+            const player2Won = !player1Won;
+
+            return (
+              <TableRow key={r.id}>
+                <TableCell style={getPlayerStyle(player1Won)} align="right">
+                  {r.player1.name}
+                </TableCell>
+                <TableCell style={goalsStyle}>{r.player1goals}</TableCell>
+                <TableCell style={colonStyle}> : </TableCell>
+                <TableCell style={goalsStyle}>{r.player2goals}</TableCell>
+                <TableCell style={getPlayerStyle(player2Won)}>
+                  {r.player2.name}
+                </TableCell>
+                <TableCell>{r.date}</TableCell>
+              </TableRow>
+            );
+          })}
         </TableBody>
       </Table>
     </Paper>
