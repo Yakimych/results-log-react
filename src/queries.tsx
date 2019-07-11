@@ -43,7 +43,7 @@ type Result = {
   player2: Player;
   player1goals: number;
   player2goals: number;
-  date: Date;
+  date: string;
   extratime: boolean;
 };
 

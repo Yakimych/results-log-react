@@ -9,6 +9,7 @@ import {
   TableCell,
   TableBody
 } from "@material-ui/core";
+import { formatDate } from "./utils";
 
 const getPlayerStyle = (isWinningPlayer: boolean): React.CSSProperties => ({
   fontWeight: isWinningPlayer ? "bold" : "normal"
@@ -68,6 +69,7 @@ export const Results: React.FC = () => {
           {data.results.map(r => {
             const player1Won = r.player1goals > r.player2goals;
             const player2Won = !player1Won;
+            const formattedDate = formatDate(new Date(r.date));
 
             return (
               <TableRow key={r.id}>
@@ -81,7 +83,7 @@ export const Results: React.FC = () => {
                   {r.player2.name}
                 </TableCell>
                 <TableCell align="right">{r.extratime ? "X" : ""}</TableCell>
-                <TableCell>{r.date}</TableCell>
+                <TableCell>{formattedDate}</TableCell>
               </TableRow>
             );
           })}

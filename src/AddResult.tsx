@@ -17,13 +17,7 @@ import {
   FormControlLabel
 } from "@material-ui/core";
 import { ADD_RESULT_MUTATION } from "./mutations";
-
-const formatDate = (date: Date) => date.toISOString().substring(0, 10);
-
-const validNumberOfGoals = (goalsString: string) => {
-  const goalsNumber = Number(goalsString);
-  return isNaN(goalsNumber) ? 0 : Math.max(Math.floor(goalsNumber), 0);
-};
+import { validNumberOfGoals, formatDate } from "./utils";
 
 // TODO: Remove as soon as the value gets picked out from the URL
 const communityname = process.env.REACT_APP_COMMUNITY_NAME;

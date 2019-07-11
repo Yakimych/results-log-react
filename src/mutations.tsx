@@ -5,7 +5,7 @@ export const ADD_RESULT_MUTATION = gql`
     $communityname: name!
     $player1name: name!
     $player2name: name!
-    $date: date!
+    $date: timestamptz!
     $player1goals: Int!
     $player2goals: Int!
     $extratime: Boolean!
