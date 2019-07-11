@@ -132,14 +132,14 @@ export const AddResult: React.FC = () => {
           type="number"
           style={{ width: 80 }}
           variant="outlined"
-          value={goals1}
+          value={goals1.toString()}
           onChange={e => setGoals1(validNumberOfGoals(e.target.value))}
         />
         <TextField
           type="number"
           style={{ width: 80 }}
           variant="outlined"
-          value={goals2}
+          value={goals2.toString()}
           onChange={e => setGoals2(validNumberOfGoals(e.target.value))}
         />
         <CreatableSelect
