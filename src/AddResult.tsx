@@ -49,6 +49,15 @@ export const AddResult: React.FC = () => {
 
   const [date, setDate] = useState<Date>(new Date());
 
+  const resetState = () => {
+    setPlayer1(null);
+    setPlayer2(null);
+    setGoals1(0);
+    setGoals2(0);
+    setExtraTime(false);
+    setDate(new Date());
+  };
+
   const addResult = () => {
     if (
       !player1 ||
@@ -66,7 +75,7 @@ export const AddResult: React.FC = () => {
     }
 
     if (Math.abs(goals1 - goals2) !== 1 && extraTime === true) {
-      alert("Games with Extra Time canno have more than one goal difference!");
+      alert("Games with Extra Time cannot have more than one goal difference!");
       return;
     }
 
@@ -89,6 +98,7 @@ export const AddResult: React.FC = () => {
           extratime: extraTime
         }
       });
+      resetState();
     }
   };
 
