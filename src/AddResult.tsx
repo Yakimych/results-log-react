@@ -1,6 +1,5 @@
 import CreatableSelect from "react-select/creatable";
 import * as React from "react";
-import { useState } from "react";
 import { ValueType } from "react-select/src/types";
 import { Option } from "react-select/src/filters";
 import { useQuery, useMutation } from "react-apollo-hooks";
@@ -39,16 +38,16 @@ export const AddResult: React.FC = () => {
     ]
   });
 
-  const [player1, setPlayer1] = useState<ValueType<Option>>(null);
-  const [goals1, setGoals1] = useState<number>(0);
+  const [player1, setPlayer1] = React.useState<ValueType<Option>>(null);
+  const [goals1, setGoals1] = React.useState<number>(0);
 
-  const [player2, setPlayer2] = useState<ValueType<Option>>(null);
-  const [goals2, setGoals2] = useState<number>(0);
+  const [player2, setPlayer2] = React.useState<ValueType<Option>>(null);
+  const [goals2, setGoals2] = React.useState<number>(0);
 
-  const [extraTime, setExtraTime] = useState<boolean>(false);
+  const [extraTime, setExtraTime] = React.useState<boolean>(false);
   const toggleExtraTime = () => setExtraTime(oldExtraTime => !oldExtraTime);
 
-  const [date, setDate] = useState<Date>(new Date());
+  const [date, setDate] = React.useState<Date>(new Date());
 
   const resetState = () => {
     setPlayer1(null);
