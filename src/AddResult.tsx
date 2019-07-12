@@ -17,7 +17,8 @@ import {
   FormControlLabel
 } from "@material-ui/core";
 import { ADD_RESULT_MUTATION } from "./mutations";
-import { validNumberOfGoals, formatDate } from "./utils";
+import { formatDate } from "./utils";
+import { GoalsPicker } from "./GoalsPicker";
 
 // TODO: Remove as soon as the value gets picked out from the URL
 const communityname = process.env.REACT_APP_COMMUNITY_NAME;
@@ -128,20 +129,8 @@ export const AddResult: React.FC = () => {
           options={options}
           onChange={selectedPlayer => setPlayer1(selectedPlayer)}
         />
-        <TextField
-          type="number"
-          style={{ width: 80 }}
-          variant="outlined"
-          value={goals1.toString()}
-          onChange={e => setGoals1(validNumberOfGoals(e.target.value))}
-        />
-        <TextField
-          type="number"
-          style={{ width: 80 }}
-          variant="outlined"
-          value={goals2.toString()}
-          onChange={e => setGoals2(validNumberOfGoals(e.target.value))}
-        />
+        <GoalsPicker selectedGoals={goals1} onChange={setGoals1} />
+        <GoalsPicker selectedGoals={goals2} onChange={setGoals2} />
         <CreatableSelect
           styles={{
             control: styles => ({
