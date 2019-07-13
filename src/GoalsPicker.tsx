@@ -17,16 +17,16 @@ export const GoalsPicker: React.FC<Props> = props => {
   const handleSelectChange = (value: string) => {
     if (value === MORE_GOALS_VALUE) {
       setIsInCustomMode(true);
-      // TODO: Is there a way to do this without setTimeout?
-      setTimeout(() => {
-        if (inputRef.current) {
-          inputRef.current.focus();
-        }
-      }, 0);
     } else {
       props.onChange(Number(value));
     }
   };
+
+  React.useLayoutEffect(() => {
+    if (inputRef.current) {
+      inputRef.current.focus();
+    }
+  }, [isInCustomMode]);
 
   return (
     <>
