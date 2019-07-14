@@ -2,6 +2,7 @@ import React from "react";
 import "./App.css";
 import { AddResult } from "./AddResult";
 import { Results } from "./Results";
+import { ResultCountIndicator } from "./ResultCountIndicator";
 
 const App: React.FC = () => {
   return (
@@ -9,6 +10,7 @@ const App: React.FC = () => {
       <header className="App-header">Result log</header>
       <AddResult />
       <Results />
+      <ResultCountIndicator />
     </div>
   );
 };
