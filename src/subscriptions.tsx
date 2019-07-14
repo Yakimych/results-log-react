@@ -11,5 +11,9 @@ export const RESULT_COUNT_SUBSCRIPTION = gql`
 `;
 
 export type ResultCount = {
-  count: number;
+  results_aggregate: {
+    aggregate: {
+      count: number;
+    };
+  };
 };
