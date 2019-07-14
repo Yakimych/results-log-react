@@ -1,7 +1,7 @@
 import { gql } from "apollo-boost";
 
 export const ALL_PLAYERS_QUERY = gql`
-  query getPlayers($communityname: name!) {
+  query getPlayers($communityname: String!) {
     players(where: { community: { name: { _eq: $communityname } } }) {
       name
     }
@@ -17,7 +17,7 @@ export type PlayersQueryResponse = {
 };
 
 export const ALL_RESULTS_QUERY = gql`
-  query($communityname: name!) {
+  query($communityname: String!) {
     results(
       where: { community: { name: { _eq: $communityname } } }
       order_by: { date: desc }
