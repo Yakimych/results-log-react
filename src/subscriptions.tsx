@@ -1,7 +1,7 @@
 import { gql } from "apollo-boost";
 
 export const RESULT_COUNT_SUBSCRIPTION = gql`
-  subscription resultCount($communityname: name!) {
+  subscription resultCount($communityname: String!) {
     results_aggregate(where: { community: { name: { _eq: $communityname } } }) {
       aggregate {
         count
