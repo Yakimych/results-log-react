@@ -37,7 +37,7 @@ export const ALL_RESULTS_QUERY = gql`
   }
 `;
 
-type Result = {
+export type Result = {
   id: number;
   player1: Player;
   player2: Player;

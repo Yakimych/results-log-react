@@ -1,6 +1,6 @@
 import * as React from "react";
 import { useQuery, useSubscription } from "react-apollo-hooks";
-import { ALL_RESULTS_QUERY, ResultsQueryResponse } from "./queries";
+import { ALL_RESULTS_QUERY, ResultsQueryResponse, Result } from "./queries";
 import Table from "@material-ui/core/Table";
 import {
   Paper,
@@ -45,6 +45,13 @@ const containerStyle: React.CSSProperties = {
 export const Results: React.FC = () => {
   const communityname = getCommunityNameFromUrl();
 
+  const [
+    lastFetchedResults,
+    setLastFetchedResults
+  ] = React.useState<ReadonlyArray<Result> | null>(null);
+
+  const [newResults, setNewResults] = React.useState<ReadonlyArray<Result>>([]);
+
   const allResultsQuery = useQuery<ResultsQueryResponse>(ALL_RESULTS_QUERY, {
     variables: { communityname }
   });
@@ -57,6 +64,24 @@ export const Results: React.FC = () => {
   if (allResultsQuery.loading) return <p>Loading...</p>;
   if (allResultsQuery.error) return <p>Error!</p>;
   if (allResultsQuery.data === undefined) return <p>Data is undefined</p>;
+
+  if (
+    lastFetchedResults !== null &&
+    lastFetchedResults.length < allResultsQuery.data.results.length
+  ) {
+    setNewResults(
+      allResultsQuery.data.results.filter(
+        r => lastFetchedResults.indexOf(r) === -1
+      )
+    );
+  }
+
+  if (
+    lastFetchedResults === null ||
+    lastFetchedResults.length < allResultsQuery.data.results.length
+  ) {
+    setLastFetchedResults(allResultsQuery.data.results);
+  }
 
   const getNewResultsButton = (fetchedResultsCount: number) => {
     if (
@@ -104,7 +129,13 @@ export const Results: React.FC = () => {
               const formattedDate = formatDate(new Date(r.date));
 
               return (
-                <TableRow key={r.id}>
+                <TableRow
+                  key={r.id}
+                  style={{
+                    backgroundColor:
+                      newResults.indexOf(r) !== -1 ? "red" : "white"
+                  }}
+                >
                   <TableCell style={getPlayerStyle(player1Won)} align="right">
                     {r.player1.name}
                   </TableCell>
