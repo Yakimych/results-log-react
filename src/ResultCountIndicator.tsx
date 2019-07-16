@@ -16,30 +16,25 @@ export const ResultCountIndicator: React.FC = () => {
     { variables: { communityname } }
   );
 
-  if (allResultsQuery.loading || resultCountSubscription.loading)
-    return <div>Loading...</div>;
-  if (allResultsQuery.error)
-    return <div>Error: {allResultsQuery.error.message}</div>;
-  if (resultCountSubscription.error)
-    return <div>Error: {resultCountSubscription.error.message}</div>;
   if (
+    allResultsQuery.loading ||
+    resultCountSubscription.loading ||
+    allResultsQuery.error ||
+    resultCountSubscription.error ||
     allResultsQuery.data === undefined ||
     resultCountSubscription.data === undefined
-  ) {
-    return <div>Data is undefined</div>;
-  }
+  )
+    return null;
 
-  const newResults =
+  const newResultsCount =
     resultCountSubscription.data.results_aggregate.aggregate.count -
     allResultsQuery.data.results.length;
 
-  return newResults > 0 ? (
-    <>
-      <Badge color="primary" badgeContent={newResults.toString()}>
-        <Button variant="contained" onClick={_ => allResultsQuery.refetch()}>
-          Refresh Results
-        </Button>
-      </Badge>
-    </>
+  return newResultsCount > 0 ? (
+    <Badge color="primary" badgeContent={newResultsCount.toString()}>
+      <Button variant="contained" onClick={_ => allResultsQuery.refetch()}>
+        Refresh Results
+      </Button>
+    </Badge>
   ) : null;
 };
