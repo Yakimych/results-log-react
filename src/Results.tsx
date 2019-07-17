@@ -45,10 +45,9 @@ const containerStyle: React.CSSProperties = {
 export const Results: React.FC = () => {
   const communityname = getCommunityNameFromUrl();
 
-  const [
-    lastFetchedResults,
-    setLastFetchedResults
-  ] = React.useState<ReadonlyArray<Result> | null>(null);
+  const lastFetchedResultsRef = React.useRef<ReadonlyArray<Result> | null>(
+    null
+  );
 
   const [newResults, setNewResults] = React.useState<ReadonlyArray<Result>>([]);
 
@@ -61,27 +60,27 @@ export const Results: React.FC = () => {
     { variables: { communityname } }
   );
 
+  React.useEffect(() => {
+    if (allResultsQuery.data !== undefined) {
+      if (
+        lastFetchedResultsRef.current !== null &&
+        lastFetchedResultsRef.current.length <
+          allResultsQuery.data.results.length
+      ) {
+        const lastFetchedResults = lastFetchedResultsRef.current;
+        setNewResults(
+          allResultsQuery.data.results.filter(
+            r => lastFetchedResults.indexOf(r) === -1
+          )
+        );
+      }
+      lastFetchedResultsRef.current = allResultsQuery.data.results;
+    }
+  }, [allResultsQuery.data]);
+
   if (allResultsQuery.loading) return <p>Loading...</p>;
   if (allResultsQuery.error) return <p>Error!</p>;
   if (allResultsQuery.data === undefined) return <p>Data is undefined</p>;
-
-  if (
-    lastFetchedResults !== null &&
-    lastFetchedResults.length < allResultsQuery.data.results.length
-  ) {
-    setNewResults(
-      allResultsQuery.data.results.filter(
-        r => lastFetchedResults.indexOf(r) === -1
-      )
-    );
-  }
-
-  if (
-    lastFetchedResults === null ||
-    lastFetchedResults.length < allResultsQuery.data.results.length
-  ) {
-    setLastFetchedResults(allResultsQuery.data.results);
-  }
 
   const getNewResultsButton = (fetchedResultsCount: number) => {
     if (
@@ -129,13 +128,7 @@ export const Results: React.FC = () => {
               const formattedDate = formatDate(new Date(r.date));
 
               return (
-                <TableRow
-                  key={r.id}
-                  style={{
-                    backgroundColor:
-                      newResults.indexOf(r) !== -1 ? "red" : "white"
-                  }}
-                >
+                <TableRow key={r.id} selected={newResults.indexOf(r) !== -1}>
                   <TableCell style={getPlayerStyle(player1Won)} align="right">
                     {r.player1.name}
                   </TableCell>
