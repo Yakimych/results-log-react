@@ -62,18 +62,13 @@ export const Results: React.FC = () => {
 
   React.useEffect(() => {
     if (allResultsQuery.data !== undefined) {
-      if (
-        lastFetchedResultsRef.current !== null &&
-        lastFetchedResultsRef.current.length <
-          allResultsQuery.data.results.length
-      ) {
-        const lastFetchedResults = lastFetchedResultsRef.current;
-        setNewResults(
-          allResultsQuery.data.results.filter(
-            r => lastFetchedResults.indexOf(r) === -1
-          )
-        );
-      }
+      setNewResults(
+        allResultsQuery.data.results.filter(
+          r =>
+            lastFetchedResultsRef.current &&
+            lastFetchedResultsRef.current.indexOf(r) === -1
+        )
+      );
       lastFetchedResultsRef.current = allResultsQuery.data.results;
     }
   }, [allResultsQuery.data]);
