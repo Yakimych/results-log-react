@@ -16,13 +16,12 @@ import {
   FormControlLabel
 } from "@material-ui/core";
 import { ADD_RESULT_MUTATION } from "./mutations";
-import { formatDate } from "./utils";
+import { formatDate, getCommunityNameFromUrl } from "./utils";
 import { GoalsPicker } from "./GoalsPicker";
 
-// TODO: Remove as soon as the value gets picked out from the URL
-const communityname = process.env.REACT_APP_COMMUNITY_NAME;
-
 export const AddResult: React.FC = () => {
+  const communityname = getCommunityNameFromUrl();
+
   const { data, error, loading } = useQuery<PlayersQueryResponse>(
     ALL_PLAYERS_QUERY,
     { variables: { communityname } }

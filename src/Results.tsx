@@ -11,7 +11,7 @@ import {
   Badge,
   Button
 } from "@material-ui/core";
-import { formatDate } from "./utils";
+import { formatDate, getCommunityNameFromUrl } from "./utils";
 import { ResultCount, RESULT_COUNT_SUBSCRIPTION } from "./subscriptions";
 
 const getPlayerStyle = (isWinningPlayer: boolean): React.CSSProperties => ({
@@ -42,9 +42,9 @@ const containerStyle: React.CSSProperties = {
   width: 650
 };
 
-const communityname = process.env.REACT_APP_COMMUNITY_NAME;
-
 export const Results: React.FC = () => {
+  const communityname = getCommunityNameFromUrl();
+
   const allResultsQuery = useQuery<ResultsQueryResponse>(ALL_RESULTS_QUERY, {
     variables: { communityname }
   });
