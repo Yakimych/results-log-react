@@ -123,7 +123,10 @@ export const Results: React.FC = () => {
               const formattedDate = formatDate(new Date(r.date));
 
               return (
-                <TableRow key={r.id} selected={newResults.indexOf(r) !== -1}>
+                <TableRow
+                  key={r.id}
+                  className={newResults.indexOf(r) !== -1 ? "highlighted" : ""}
+                >
                   <TableCell style={getPlayerStyle(player1Won)} align="right">
                     {r.player1.name}
                   </TableCell>
