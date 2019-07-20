@@ -9,10 +9,12 @@ import {
   Paper
 } from "@material-ui/core";
 import { formatDate } from "./utils";
+import { Link } from "@reach/router";
 
 type Props = {
   results: readonly Result[];
   newResults?: readonly Result[];
+  communityname: string;
 };
 
 const getPlayerStyle = (isWinningPlayer: boolean): React.CSSProperties => ({
@@ -20,6 +22,12 @@ const getPlayerStyle = (isWinningPlayer: boolean): React.CSSProperties => ({
 });
 
 const goalsStyle: React.CSSProperties = {
+  width: 20,
+  paddingLeft: 10,
+  paddingRight: 0
+};
+
+const headToHeadStyle: React.CSSProperties = {
   width: 20,
   paddingLeft: 10,
   paddingRight: 0
@@ -43,12 +51,17 @@ const containerStyle: React.CSSProperties = {
   width: 650
 };
 
-export const ResultsTable: React.FC<Props> = ({ results, newResults }) => (
+export const ResultsTable: React.FC<Props> = ({
+  results,
+  newResults,
+  communityname: communityName
+}) => (
   <>
     <Paper style={containerStyle}>
       <Table style={containerStyle} size="small">
         <TableHead>
           <TableRow>
+            <TableCell style={headToHeadStyle}>H2H</TableCell>
             <TableCell align="right">Player1</TableCell>
             <TableCell style={goalsStyle}>G1</TableCell>
             <TableCell style={colonStyle} />
@@ -73,6 +86,13 @@ export const ResultsTable: React.FC<Props> = ({ results, newResults }) => (
                   newResults && newResults.indexOf(r) > -1 ? "highlighted" : ""
                 }
               >
+                <TableCell style={headToHeadStyle}>
+                  <Link
+                    to={`/${communityName}/${r.player1.name}/${r.player2.name}`}
+                  >
+                    H2H
+                  </Link>
+                </TableCell>
                 <TableCell style={getPlayerStyle(player1Won)} align="right">
                   {r.player1.name}
                 </TableCell>

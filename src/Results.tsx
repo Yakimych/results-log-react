@@ -64,6 +64,7 @@ export const Results: React.FC<CommunityNameProps> = ({ communityname }) => {
     <>
       {getNewResultsButton(allResultsQuery.data.results.length)}
       <ResultsTable
+        communityname={communityname}
         results={allResultsQuery.data.results}
         newResults={newResults}
       />
