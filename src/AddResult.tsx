@@ -18,10 +18,9 @@ import {
 import { ADD_RESULT_MUTATION } from "./mutations";
 import { getCommunityNameFromUrl, formatDate, withCurrentTime } from "./utils";
 import { GoalsPicker } from "./GoalsPicker";
+import { CommunityNameProps } from "./RouteProps";
 
-export const AddResult: React.FC = () => {
-  const communityname = getCommunityNameFromUrl();
-
+export const AddResult: React.FC<CommunityNameProps> = ({ communityname }) => {
   const { data, error, loading } = useQuery<PlayersQueryResponse>(
     ALL_PLAYERS_QUERY,
     { variables: { communityname } }
