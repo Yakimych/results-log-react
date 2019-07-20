@@ -74,6 +74,36 @@ export const HEAD_TO_HEAD_QUERY = gql`
   }
 `;
 
+export const PLAYER_RESULTS_QUERY = gql`
+  query playerResults($communityname: String!, $playername: String!) {
+    results(
+      where: {
+        _and: [
+          { community: { name: { _eq: $communityname } } }
+          {
+            _or: [
+              { player1: { name: { _eq: $playername } } }
+              { player2: { name: { _eq: $playername } } }
+            ]
+          }
+        ]
+      }
+    ) {
+      id
+      player1 {
+        name
+      }
+      player1goals
+      player2 {
+        name
+      }
+      player2goals
+      date
+      extratime
+    }
+  }
+`;
+
 export type Result = {
   id: number;
   player1: Player;
