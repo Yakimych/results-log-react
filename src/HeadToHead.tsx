@@ -5,6 +5,7 @@ import { useQuery } from "react-apollo-hooks";
 import { ResultsQueryResponse, HEAD_TO_HEAD_QUERY } from "./queries";
 import { ResultsTable } from "./ResultsTable";
 import { Typography, Box } from "@material-ui/core";
+import { getHeadToHeadStats } from "./utils";
 
 type Props = {
   player1name: string;
@@ -22,7 +23,14 @@ export const HeadToHead: React.FC<RouteComponentProps<Props>> = ({
 
   if (headToHeadQuery.loading) return <p>Loading...</p>;
   if (headToHeadQuery.error) return <p>Error!</p>;
-  if (!headToHeadQuery.data || !communityname) return <p>Data is undefined</p>;
+  if (!headToHeadQuery.data || !communityname || !player1name || !player2name)
+    return <p>Data is undefined</p>;
+
+  const stats = getHeadToHeadStats(
+    headToHeadQuery.data.results,
+    player1name,
+    player2name
+  );
 
   return (
     <>
@@ -31,6 +39,13 @@ export const HeadToHead: React.FC<RouteComponentProps<Props>> = ({
         <Typography variant="h4">
           {player1name} vs {player2name}
         </Typography>
+        <div>
+          <span className="stats-player-goals">({stats.player1Goals})</span>{" "}
+          <span className="stats-player-wins">
+            {stats.player1Wins} - {stats.player2Wins}
+          </span>{" "}
+          <span className="stats-player-goals">({stats.player2Goals})</span>
+        </div>
       </Box>
       <ResultsTable
         communityname={communityname}
