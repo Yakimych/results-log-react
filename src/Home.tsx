@@ -3,6 +3,7 @@ import { Theme, createStyles, makeStyles } from "@material-ui/core/styles";
 import Paper from "@material-ui/core/Paper";
 import Typography from "@material-ui/core/Typography";
 import createSpacing from "@material-ui/core/styles/createSpacing";
+import { RouteComponentProps } from "@reach/router";
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -12,7 +13,7 @@ const useStyles = makeStyles((theme: Theme) =>
   })
 );
 
-export const StartPage: React.FC = () => {
+export const Home: React.FC<RouteComponentProps> = () => {
   const classes = useStyles(createSpacing(10));
 
   return (
