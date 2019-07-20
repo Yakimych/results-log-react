@@ -45,33 +45,29 @@ const toWinningLosingResult = (result: Result): WinningLosingResult => {
   };
 };
 
-type HeadToHeadStats = {
-  player1Wins: number;
-  player2Wins: number;
-  player1Goals: number;
-  player2Goals: number;
+type PlayerStats = {
+  numberOfWins: number;
+  numberOfLosses: number;
+  goalsScored: number;
+  goalsConceded: number;
 };
 
-export const getHeadToHeadStats = (
+export const getPlayerStats = (
   results: readonly Result[],
-  player1name: string,
-  player2name: string
-): HeadToHeadStats => {
-  const reduceFunc = (
-    stats: HeadToHeadStats,
-    currentResult: WinningLosingResult
-  ) => {
-    if (currentResult.winningPlayer.name === player1name) {
+  playername: string
+): PlayerStats => {
+  const addGoals = (stats: PlayerStats, currentResult: WinningLosingResult) => {
+    if (currentResult.winningPlayer.name === playername) {
       return {
         ...stats,
-        player1Goals: stats.player1Goals + currentResult.winningGoals,
-        player2Goals: stats.player2Goals + currentResult.losingGoals
+        goalsScored: stats.goalsScored + currentResult.winningGoals,
+        goalsConceded: stats.goalsConceded + currentResult.losingGoals
       };
     }
     return {
       ...stats,
-      player1Goals: stats.player1Goals + currentResult.losingGoals,
-      player2Goals: stats.player2Goals + currentResult.winningGoals
+      goalsScored: stats.goalsScored + currentResult.losingGoals,
+      goalsConceded: stats.goalsConceded + currentResult.winningGoals
     };
   };
 
@@ -79,23 +75,20 @@ export const getHeadToHeadStats = (
     toWinningLosingResult
   );
 
-  const player1Wins = winningLosingResults.filter(
-    r => r.winningPlayer.name === player1name
+  const numberOfWins = winningLosingResults.filter(
+    r => r.winningPlayer.name === playername
   ).length;
 
-  const player2Wins = winningLosingResults.filter(
-    r => r.winningPlayer.name === player2name
+  const numberOfLosses = winningLosingResults.filter(
+    r => r.winningPlayer.name !== playername
   ).length;
 
-  const headToHeadStats: HeadToHeadStats = winningLosingResults.reduce(
-    reduceFunc,
-    {
-      player1Wins,
-      player2Wins,
-      player1Goals: 0,
-      player2Goals: 0
-    }
-  );
+  const playerStats: PlayerStats = winningLosingResults.reduce(addGoals, {
+    numberOfWins,
+    numberOfLosses,
+    goalsScored: 0,
+    goalsConceded: 0
+  });
 
-  return headToHeadStats;
+  return playerStats;
 };

@@ -5,7 +5,7 @@ import { useQuery } from "react-apollo-hooks";
 import { ResultsQueryResponse, HEAD_TO_HEAD_QUERY } from "./queries";
 import { ResultsTable } from "./ResultsTable";
 import { Typography, Box } from "@material-ui/core";
-import { getHeadToHeadStats } from "./utils";
+import { getPlayerStats } from "./utils";
 import ReactMinimalPieChart from "react-minimal-pie-chart";
 
 type Props = {
@@ -27,11 +27,7 @@ export const HeadToHead: React.FC<RouteComponentProps<Props>> = ({
   if (!headToHeadQuery.data || !communityname || !player1name || !player2name)
     return <p>Data is undefined</p>;
 
-  const stats = getHeadToHeadStats(
-    headToHeadQuery.data.results,
-    player1name,
-    player2name
-  );
+  const stats = getPlayerStats(headToHeadQuery.data.results, player1name);
 
   return (
     <>
@@ -41,21 +37,25 @@ export const HeadToHead: React.FC<RouteComponentProps<Props>> = ({
           {player1name} vs {player2name}
         </Typography>
         <div>
-          <span className="stats-player-goals">({stats.player1Goals})</span>{" "}
+          <span className="stats-player-goals">({stats.goalsScored})</span>{" "}
           <span className="stats-player-wins">
-            {stats.player1Wins} - {stats.player2Wins}
+            {stats.numberOfWins} - {stats.numberOfLosses}
           </span>{" "}
-          <span className="stats-player-goals">({stats.player2Goals})</span>
+          <span className="stats-player-goals">({stats.goalsConceded})</span>
         </div>
         <ReactMinimalPieChart
           style={{ height: "100px", marginBottom: "10px" }}
           data={[
             {
               title: player1name,
-              value: stats.player1Wins,
+              value: stats.numberOfWins,
               color: "#00cc00"
             },
-            { title: player2name, value: stats.player2Wins, color: "#FF2200" }
+            {
+              title: player2name,
+              value: stats.numberOfLosses,
+              color: "#FF2200"
+            }
           ]}
           animate
           lineWidth={80}
