@@ -1,5 +1,5 @@
 import React from "react";
-import { RouteComponentProps } from "@reach/router";
+import { RouteComponentProps, Link } from "@reach/router";
 import { CommunityNameProps } from "./RouteProps";
 import { useQuery } from "react-apollo-hooks";
 import { ResultsQueryResponse, HEAD_TO_HEAD_QUERY } from "./queries";
@@ -51,6 +51,7 @@ export const HeadToHead: React.FC<RouteComponentProps<Props>> = ({
         communityname={communityname}
         results={headToHeadQuery.data.results}
       />
+      <Link to={`/${communityname}`}>Back to full result list</Link>
     </>
   );
 };
