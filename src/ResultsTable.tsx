@@ -21,6 +21,11 @@ const getPlayerStyle = (isWinningPlayer: boolean): React.CSSProperties => ({
   fontWeight: isWinningPlayer ? "bold" : "normal"
 });
 
+const playerLinkStyle = {
+  textDecoration: "none",
+  color: "rgba(0, 0, 0, 0.87)"
+};
+
 const goalsStyle: React.CSSProperties = {
   width: 20,
   paddingLeft: 10,
@@ -94,13 +99,23 @@ export const ResultsTable: React.FC<Props> = ({
                   </Link>
                 </TableCell>
                 <TableCell style={getPlayerStyle(player1Won)} align="right">
-                  {r.player1.name}
+                  <Link
+                    to={`/${communityName}/${r.player1.name}`}
+                    style={playerLinkStyle}
+                  >
+                    {r.player1.name}
+                  </Link>
                 </TableCell>
                 <TableCell style={goalsStyle}>{r.player1goals}</TableCell>
                 <TableCell style={colonStyle}> : </TableCell>
                 <TableCell style={goalsStyle}>{r.player2goals}</TableCell>
                 <TableCell style={getPlayerStyle(player2Won)}>
-                  {r.player2.name}
+                  <Link
+                    to={`/${communityName}/${r.player2.name}`}
+                    style={playerLinkStyle}
+                  >
+                    {r.player2.name}
+                  </Link>
                 </TableCell>
                 <TableCell align="right">{r.extratime ? "X" : ""}</TableCell>
                 <TableCell>{formattedDate}</TableCell>
