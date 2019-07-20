@@ -61,15 +61,15 @@ export const Results: React.FC = () => {
   );
 
   React.useEffect(() => {
-    if (allResultsQuery.data !== undefined) {
-      setNewResults(
-        allResultsQuery.data.results.filter(
-          r =>
-            lastFetchedResultsRef.current &&
-            lastFetchedResultsRef.current.indexOf(r) === -1
-        )
-      );
-      lastFetchedResultsRef.current = allResultsQuery.data.results;
+    const lastFetchedResult = lastFetchedResultsRef.current;
+    const queryData = allResultsQuery.data;
+    if (queryData) {
+      if (lastFetchedResult !== null) {
+        setNewResults(
+          queryData.results.filter(r => lastFetchedResult.indexOf(r) < 0)
+        );
+      }
+      lastFetchedResultsRef.current = queryData.results;
     }
   }, [allResultsQuery.data]);
 
@@ -125,7 +125,7 @@ export const Results: React.FC = () => {
               return (
                 <TableRow
                   key={r.id}
-                  className={newResults.indexOf(r) !== -1 ? "highlighted" : ""}
+                  className={newResults.indexOf(r) > -1 ? "highlighted" : ""}
                 >
                   <TableCell style={getPlayerStyle(player1Won)} align="right">
                     {r.player1.name}
