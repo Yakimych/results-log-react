@@ -1,6 +1,6 @@
 import * as React from "react";
 import { useQuery, useSubscription } from "react-apollo-hooks";
-import { ALL_RESULTS_QUERY, ResultsQueryResponse } from "./queries";
+import { ALL_RESULTS_QUERY, ResultsQueryResponse, Result } from "./queries";
 import Table from "@material-ui/core/Table";
 import {
   Paper,
@@ -45,6 +45,12 @@ const containerStyle: React.CSSProperties = {
 export const Results: React.FC = () => {
   const communityname = getCommunityNameFromUrl();
 
+  const lastFetchedResultsRef = React.useRef<ReadonlyArray<Result> | null>(
+    null
+  );
+
+  const [newResults, setNewResults] = React.useState<ReadonlyArray<Result>>([]);
+
   const allResultsQuery = useQuery<ResultsQueryResponse>(ALL_RESULTS_QUERY, {
     variables: { communityname }
   });
@@ -53,6 +59,19 @@ export const Results: React.FC = () => {
     RESULT_COUNT_SUBSCRIPTION,
     { variables: { communityname } }
   );
+
+  React.useEffect(() => {
+    const lastFetchedResult = lastFetchedResultsRef.current;
+    const queryData = allResultsQuery.data;
+    if (queryData) {
+      if (lastFetchedResult !== null) {
+        setNewResults(
+          queryData.results.filter(r => lastFetchedResult.indexOf(r) < 0)
+        );
+      }
+      lastFetchedResultsRef.current = queryData.results;
+    }
+  }, [allResultsQuery.data]);
 
   if (allResultsQuery.loading) return <p>Loading...</p>;
   if (allResultsQuery.error) return <p>Error!</p>;
@@ -104,7 +123,10 @@ export const Results: React.FC = () => {
               const formattedDate = formatDate(new Date(r.date));
 
               return (
-                <TableRow key={r.id}>
+                <TableRow
+                  key={r.id}
+                  className={newResults.indexOf(r) > -1 ? "highlighted" : ""}
+                >
                   <TableCell style={getPlayerStyle(player1Won)} align="right">
                     {r.player1.name}
                   </TableCell>

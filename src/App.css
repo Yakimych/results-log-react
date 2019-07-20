@@ -14,3 +14,19 @@
   font-size: calc(10px + 2vmin);
   color: white;
 }
+
+.highlighted {
+  background-color: #ffff6f;
+  animation-name: fade;
+  animation-duration: 4s;
+  animation-fill-mode: forwards;
+}
+
+@keyframes fade {
+  from {
+    background-color: #ffff6f;
+  }
+  to {
+    background-color: #fff;
+  }
+}

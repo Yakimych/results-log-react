@@ -16,7 +16,7 @@ import {
   FormControlLabel
 } from "@material-ui/core";
 import { ADD_RESULT_MUTATION } from "./mutations";
-import { formatDate, getCommunityNameFromUrl } from "./utils";
+import { getCommunityNameFromUrl, formatDate, withCurrentTime } from "./utils";
 import { GoalsPicker } from "./GoalsPicker";
 
 export const AddResult: React.FC = () => {
@@ -91,7 +91,7 @@ export const AddResult: React.FC = () => {
           communityname,
           player1name,
           player2name,
-          date: date,
+          date: withCurrentTime(date),
           player1goals: goals1,
           player2goals: goals2,
           extratime: extraTime
