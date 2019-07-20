@@ -6,6 +6,7 @@ import { ResultsQueryResponse, HEAD_TO_HEAD_QUERY } from "./queries";
 import { ResultsTable } from "./ResultsTable";
 import { Typography, Box } from "@material-ui/core";
 import { getHeadToHeadStats } from "./utils";
+import ReactMinimalPieChart from "react-minimal-pie-chart";
 
 type Props = {
   player1name: string;
@@ -46,6 +47,24 @@ export const HeadToHead: React.FC<RouteComponentProps<Props>> = ({
           </span>{" "}
           <span className="stats-player-goals">({stats.player2Goals})</span>
         </div>
+        <ReactMinimalPieChart
+          style={{ height: "100px", marginBottom: "10px" }}
+          data={[
+            {
+              title: player1name,
+              value: stats.player1Wins,
+              color: "#00cc00"
+            },
+            { title: player2name, value: stats.player2Wins, color: "#FF2200" }
+          ]}
+          animate
+          lineWidth={80}
+          label
+          labelStyle={{
+            fontSize: "20px",
+            fill: "#ffffff"
+          }}
+        />
       </Box>
       <ResultsTable
         communityname={communityname}
