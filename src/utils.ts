@@ -12,5 +12,3 @@ export const validNumberOfGoals = (goalsString: string) => {
   const goalsNumber = Number(goalsString);
   return isNaN(goalsNumber) ? 0 : Math.max(Math.floor(goalsNumber), 0);
 };
-
-export const getCommunityNameFromUrl = () => window.location.pathname.substr(1);

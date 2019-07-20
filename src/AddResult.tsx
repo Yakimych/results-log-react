@@ -1,5 +1,5 @@
 import CreatableSelect from "react-select/creatable";
-import * as React from "react";
+import React from "react";
 import { ValueType } from "react-select/src/types";
 import { Option } from "react-select/src/filters";
 import { useQuery, useMutation } from "react-apollo-hooks";
@@ -16,7 +16,7 @@ import {
   FormControlLabel
 } from "@material-ui/core";
 import { ADD_RESULT_MUTATION } from "./mutations";
-import { getCommunityNameFromUrl, formatDate, withCurrentTime } from "./utils";
+import { formatDate, withCurrentTime } from "./utils";
 import { GoalsPicker } from "./GoalsPicker";
 import { CommunityNameProps } from "./RouteProps";
 
