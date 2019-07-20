@@ -1,4 +1,4 @@
-import * as React from "react";
+import React from "react";
 import { useQuery, useSubscription } from "react-apollo-hooks";
 import { ALL_RESULTS_QUERY, ResultsQueryResponse, Result } from "./queries";
 import Table from "@material-ui/core/Table";

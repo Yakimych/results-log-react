@@ -3,6 +3,8 @@ import "./App.css";
 import { Router } from "@reach/router";
 import { Home } from "./Home";
 import { AllResultsPage } from "./AllResultsPage";
+import { HeadToHead } from "./HeadToHead";
+import { PlayerResults } from "./PlayerResults";
 
 const App: React.FC = () => (
   <div className="App">
@@ -10,6 +12,8 @@ const App: React.FC = () => (
     <Router>
       <Home path="/" />
       <AllResultsPage path=":communityname" />
+      <PlayerResults path=":communityname/:playerName" />
+      <HeadToHead path=":communityname/:player1Name/:player2Name" />
     </Router>
   </div>
 );
