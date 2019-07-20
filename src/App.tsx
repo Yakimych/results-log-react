@@ -12,8 +12,8 @@ const App: React.FC = () => (
     <Router>
       <Home path="/" />
       <AllResultsPage path=":communityname" />
-      <PlayerResults path=":communityname/:playerName" />
-      <HeadToHead path=":communityname/:player1Name/:player2Name" />
+      <PlayerResults path=":communityname/:playername" />
+      <HeadToHead path=":communityname/:player1name/:player2name" />
     </Router>
   </div>
 );
