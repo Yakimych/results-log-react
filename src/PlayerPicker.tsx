@@ -24,6 +24,7 @@ export const PlayerPicker: React.FC<Props> = props => {
   };
 
   React.useEffect(() => {
+    // "Reset" back to normal selector when null is passed in as a prop
     if (props.selectedPlayerName === null) {
       setIsInCustomMode(false);
     }

@@ -7,11 +7,9 @@ import { CommunityNameProps } from "./RouteProps";
 import { ResultsTable } from "./ResultsTable";
 
 export const Results: React.FC<CommunityNameProps> = ({ communityname }) => {
-  const lastFetchedResultsRef = React.useRef<ReadonlyArray<Result> | null>(
-    null
-  );
+  const lastFetchedResultsRef = React.useRef<readonly Result[] | null>(null);
 
-  const [newResults, setNewResults] = React.useState<ReadonlyArray<Result>>([]);
+  const [newResults, setNewResults] = React.useState<readonly Result[]>([]);
 
   const allResultsQuery = useQuery<ResultsQueryResponse>(ALL_RESULTS_QUERY, {
     variables: { communityname }
