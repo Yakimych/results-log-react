@@ -12,7 +12,6 @@ const MORE_GOALS_VALUE = "MORE_GOALS";
 
 export const GoalsPicker: React.FC<Props> = props => {
   const [isInCustomMode, setIsInCustomMode] = React.useState<boolean>(false);
-  const inputRef = React.useRef<HTMLInputElement>(null);
 
   const handleSelectChange = (value: string) => {
     if (value === MORE_GOALS_VALUE) {
@@ -22,17 +21,12 @@ export const GoalsPicker: React.FC<Props> = props => {
     }
   };
 
-  React.useLayoutEffect(() => {
-    if (inputRef.current) {
-      inputRef.current.focus();
-    }
-  }, [isInCustomMode]);
-
   return (
     <>
       {isInCustomMode ? (
         <TextField
-          inputRef={inputRef}
+          className="highlighted"
+          autoFocus
           type="number"
           style={{ width: 80 }}
           variant="outlined"

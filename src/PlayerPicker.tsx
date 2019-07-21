@@ -12,7 +12,6 @@ const NEW_PLAYER_VALUE = "NEW_PLAYER";
 
 export const PlayerPicker: React.FC<Props> = props => {
   const [isInCustomMode, setIsInCustomMode] = React.useState<boolean>(false);
-  const inputRef = React.useRef<HTMLInputElement>(null);
 
   const handleSelectChange = (value: string) => {
     if (value === NEW_PLAYER_VALUE) {
@@ -30,18 +29,13 @@ export const PlayerPicker: React.FC<Props> = props => {
     }
   }, [props.selectedPlayerName]);
 
-  React.useLayoutEffect(() => {
-    if (inputRef.current) {
-      inputRef.current.focus();
-    }
-  }, [isInCustomMode]);
-
   return (
     <>
       {isInCustomMode ? (
         <TextField
-          inputRef={inputRef}
-          style={{ width: 200, height: 50 }}
+          className="highlighted"
+          autoFocus
+          style={{ width: 200 }}
           variant="outlined"
           inputProps={{ maxLength: 20 }}
           value={props.selectedPlayerName || ""}
@@ -49,7 +43,7 @@ export const PlayerPicker: React.FC<Props> = props => {
         />
       ) : (
         <NativeSelect
-          style={{ width: 200, height: 50 }}
+          style={{ width: 200 }}
           onChange={e => handleSelectChange(e.target.value)}
           value={props.selectedPlayerName || ""}
           input={<OutlinedInput style={{ width: 60 }} labelWidth={0} />}
