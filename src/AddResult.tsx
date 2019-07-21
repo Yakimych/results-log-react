@@ -1,7 +1,4 @@
-import CreatableSelect from "react-select/creatable";
 import React from "react";
-import { ValueType } from "react-select/src/types";
-import { Option } from "react-select/src/filters";
 import { useQuery, useMutation } from "react-apollo-hooks";
 import {
   PlayersQueryResponse,
@@ -19,6 +16,7 @@ import { ADD_RESULT_MUTATION } from "./mutations";
 import { formatDate, withCurrentTime } from "./utils";
 import { GoalsPicker } from "./GoalsPicker";
 import { CommunityNameProps } from "./RouteProps";
+import { PlayerPicker } from "./PlayerPicker";
 
 export const AddResult: React.FC<CommunityNameProps> = ({ communityname }) => {
   const { data, error, loading } = useQuery<PlayersQueryResponse>(
@@ -36,10 +34,10 @@ export const AddResult: React.FC<CommunityNameProps> = ({ communityname }) => {
     ]
   });
 
-  const [player1, setPlayer1] = React.useState<ValueType<Option>>(null);
+  const [player1name, setPlayer1name] = React.useState<string | null>(null);
   const [goals1, setGoals1] = React.useState<number>(0);
 
-  const [player2, setPlayer2] = React.useState<ValueType<Option>>(null);
+  const [player2name, setPlayer2name] = React.useState<string | null>(null);
   const [goals2, setGoals2] = React.useState<number>(0);
 
   const [extraTime, setExtraTime] = React.useState<boolean>(false);
@@ -48,8 +46,8 @@ export const AddResult: React.FC<CommunityNameProps> = ({ communityname }) => {
   const [date, setDate] = React.useState<Date>(new Date());
 
   const resetState = () => {
-    setPlayer1(null);
-    setPlayer2(null);
+    setPlayer1name(null);
+    setPlayer2name(null);
     setGoals1(0);
     setGoals2(0);
     setExtraTime(false);
@@ -58,10 +56,10 @@ export const AddResult: React.FC<CommunityNameProps> = ({ communityname }) => {
 
   const addResult = () => {
     if (
-      !player1 ||
-      (player1 as Option).value.length === 0 ||
-      !player2 ||
-      (player2 as Option).value.length === 0
+      !player1name ||
+      player1name.length === 0 ||
+      !player2name ||
+      player2name.length === 0
     ) {
       alert("You must select both players!");
       return;
@@ -77,9 +75,7 @@ export const AddResult: React.FC<CommunityNameProps> = ({ communityname }) => {
       return;
     }
 
-    if (player1 && player2) {
-      const player1name = (player1 as Option).value;
-      const player2name = (player2 as Option).value;
+    if (player1name && player2name) {
       if (player1name === player2name) {
         alert("You must select two DIFFERENT players!");
         return;
@@ -104,42 +100,24 @@ export const AddResult: React.FC<CommunityNameProps> = ({ communityname }) => {
   if (error) return <p>Error!</p>;
   if (data === undefined) return <p>Data is undefined</p>;
 
-  const options: readonly Option[] = data.players.map(p => ({
-    label: p.name,
-    value: p.name,
-    data: null
-  }));
+  const playerNames: readonly string[] = data.players.map(p => p.name);
 
   return (
     <Paper style={{ width: 650, marginBottom: 30 }}>
       <div style={{ display: "flex" }}>
-        <CreatableSelect
-          styles={{
-            control: styles => ({
-              ...styles,
-              width: 200,
-              height: 50
-            })
-          }}
-          placeholder="Player1"
-          value={player1}
-          options={options}
-          onChange={selectedPlayer => setPlayer1(selectedPlayer)}
+        <PlayerPicker
+          placeholderText="Player1"
+          playerNames={playerNames}
+          selectedPlayerName={player1name}
+          onChange={setPlayer1name}
         />
         <GoalsPicker selectedGoals={goals1} onChange={setGoals1} />
         <GoalsPicker selectedGoals={goals2} onChange={setGoals2} />
-        <CreatableSelect
-          styles={{
-            control: styles => ({
-              ...styles,
-              width: 200,
-              height: 50
-            })
-          }}
-          placeholder="Player2"
-          value={player2}
-          options={options}
-          onChange={selectedPlayer => setPlayer2(selectedPlayer)}
+        <PlayerPicker
+          placeholderText="Player2"
+          playerNames={playerNames}
+          selectedPlayerName={player2name}
+          onChange={setPlayer2name}
         />
         <FormControlLabel
           control={
