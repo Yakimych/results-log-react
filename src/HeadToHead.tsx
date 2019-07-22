@@ -4,7 +4,7 @@ import { CommunityNameProps } from "./RouteProps";
 import { useQuery } from "react-apollo-hooks";
 import { ResultsQueryResponse, HEAD_TO_HEAD_QUERY } from "./queries";
 import { ResultsTable } from "./ResultsTable";
-import { Typography, Box } from "@material-ui/core";
+import { Typography, Box, CircularProgress } from "@material-ui/core";
 import { getPlayerStats } from "./utils";
 import ReactMinimalPieChart from "react-minimal-pie-chart";
 
@@ -22,7 +22,7 @@ export const HeadToHead: React.FC<RouteComponentProps<Props>> = ({
     variables: { communityname, player1name, player2name }
   });
 
-  if (headToHeadQuery.loading) return <p>Loading...</p>;
+  if (headToHeadQuery.loading) return <CircularProgress />;
   if (headToHeadQuery.error) return <p>Error!</p>;
   if (!headToHeadQuery.data || !communityname || !player1name || !player2name)
     return <p>Data is undefined</p>;

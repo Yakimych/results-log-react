@@ -4,7 +4,7 @@ import { CommunityNameProps } from "./RouteProps";
 import { useQuery } from "react-apollo-hooks";
 import { PLAYER_RESULTS_QUERY } from "./queries";
 import { ResultsTable } from "./ResultsTable";
-import { Typography, Box } from "@material-ui/core";
+import { Typography, Box, CircularProgress } from "@material-ui/core";
 import { getPlayerStats } from "./utils";
 
 type Props = {
@@ -19,7 +19,7 @@ export const PlayerResults: React.FC<RouteComponentProps<Props>> = ({
     variables: { communityname, playername }
   });
 
-  if (playerResultsQuery.loading) return <p>Loading...</p>;
+  if (playerResultsQuery.loading) return <CircularProgress />;
   if (playerResultsQuery.error) return <p>Error!</p>;
   if (!playerResultsQuery.data || !communityname || !playername)
     return <p>Data is undefined</p>;

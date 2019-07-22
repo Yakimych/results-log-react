@@ -1,7 +1,7 @@
 import React from "react";
 import { useQuery, useSubscription } from "react-apollo-hooks";
 import { ALL_RESULTS_QUERY, ResultsQueryResponse, Result } from "./queries";
-import { Badge, Button } from "@material-ui/core";
+import { Badge, Button, CircularProgress } from "@material-ui/core";
 import { ResultCount, RESULT_COUNT_SUBSCRIPTION } from "./subscriptions";
 import { CommunityNameProps } from "./RouteProps";
 import { ResultsTable } from "./ResultsTable";
@@ -33,7 +33,7 @@ export const Results: React.FC<CommunityNameProps> = ({ communityname }) => {
     }
   }, [allResultsQuery.data]);
 
-  if (allResultsQuery.loading) return <p>Loading...</p>;
+  if (allResultsQuery.loading) return <CircularProgress />;
   if (allResultsQuery.error) return <p>Error!</p>;
   if (allResultsQuery.data === undefined) return <p>Data is undefined</p>;
 
