@@ -1,24 +1,29 @@
 import React from "react";
-import { useQuery, useSubscription } from "react-apollo-hooks";
+import { useQuery } from "react-apollo-hooks";
 import { ALL_RESULTS_QUERY, ResultsQueryResponse, Result } from "./queries";
-import { Badge, Button, CircularProgress } from "@material-ui/core";
-import { ResultCount, RESULT_COUNT_SUBSCRIPTION } from "./subscriptions";
+import { CircularProgress } from "@material-ui/core";
 import { CommunityNameProps } from "./RouteProps";
 import { ResultsTable } from "./ResultsTable";
 
-export const Results: React.FC<CommunityNameProps> = ({ communityname }) => {
+type Props = {
+  dateFrom?: Date;
+  dateTo?: Date;
+  highlightNewResults: boolean;
+} & CommunityNameProps;
+
+export const Results: React.FC<Props> = ({
+  communityname,
+  dateFrom,
+  dateTo,
+  highlightNewResults
+}) => {
   const lastFetchedResultsRef = React.useRef<readonly Result[] | null>(null);
 
   const [newResults, setNewResults] = React.useState<readonly Result[]>([]);
 
   const allResultsQuery = useQuery<ResultsQueryResponse>(ALL_RESULTS_QUERY, {
-    variables: { communityname }
+    variables: { communityname, dateFrom, dateTo }
   });
-
-  const resultCountSubscription = useSubscription<ResultCount>(
-    RESULT_COUNT_SUBSCRIPTION,
-    { variables: { communityname } }
-  );
 
   React.useEffect(() => {
     const lastFetchedResult = lastFetchedResultsRef.current;
@@ -37,35 +42,11 @@ export const Results: React.FC<CommunityNameProps> = ({ communityname }) => {
   if (allResultsQuery.error) return <p>Error!</p>;
   if (allResultsQuery.data === undefined) return <p>Data is undefined</p>;
 
-  const getNewResultsButton = (fetchedResultsCount: number) => {
-    if (
-      resultCountSubscription.loading ||
-      resultCountSubscription.error ||
-      resultCountSubscription.data === undefined
-    )
-      return null;
-
-    const newResultsCount =
-      resultCountSubscription.data.results_aggregate.aggregate.count -
-      fetchedResultsCount;
-
-    return newResultsCount > 0 ? (
-      <Badge color="primary" badgeContent={newResultsCount.toString()}>
-        <Button variant="contained" onClick={_ => allResultsQuery.refetch()}>
-          Refresh Results
-        </Button>
-      </Badge>
-    ) : null;
-  };
-
   return (
-    <>
-      {getNewResultsButton(allResultsQuery.data.results.length)}
-      <ResultsTable
-        communityname={communityname}
-        results={allResultsQuery.data.results}
-        newResults={newResults}
-      />
-    </>
+    <ResultsTable
+      communityname={communityname}
+      results={allResultsQuery.data.results}
+      newResults={highlightNewResults ? newResults : []}
+    />
   );
 };

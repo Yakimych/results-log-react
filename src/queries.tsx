@@ -17,9 +17,12 @@ export type PlayersQueryResponse = {
 };
 
 export const ALL_RESULTS_QUERY = gql`
-  query($communityname: String!) {
+  query($communityname: String!, $dateFrom: timestamptz, $dateTo: timestamptz) {
     results(
-      where: { community: { name: { _eq: $communityname } } }
+      where: {
+        community: { name: { _eq: $communityname } }
+        date: { _gte: $dateFrom, _lte: $dateTo }
+      }
       order_by: { date: desc }
     ) {
       player1 {
