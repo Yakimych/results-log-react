@@ -5,6 +5,7 @@ import { Home } from "./Home";
 import { AllResultsPage } from "./AllResultsPage";
 import { HeadToHead } from "./HeadToHead";
 import { PlayerResults } from "./PlayerResults";
+import { ResultHistory } from "./ResultHistory";
 
 const App: React.FC = () => (
   <div className="App">
@@ -12,6 +13,7 @@ const App: React.FC = () => (
     <Router>
       <Home path="/" />
       <AllResultsPage path=":communityname" />
+      <ResultHistory path=":communityname/history" />
       <PlayerResults path=":communityname/:playername" />
       <HeadToHead path=":communityname/:player1name/:player2name" />
     </Router>

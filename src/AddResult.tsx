@@ -18,7 +18,16 @@ import { GoalsPicker } from "./GoalsPicker";
 import { CommunityNameProps } from "./RouteProps";
 import { PlayerPicker } from "./PlayerPicker";
 
-export const AddResult: React.FC<CommunityNameProps> = ({ communityname }) => {
+type Props = {
+  dateFrom?: Date;
+  dateTo?: Date;
+} & CommunityNameProps;
+
+export const AddResult: React.FC<Props> = ({
+  communityname,
+  dateFrom,
+  dateTo
+}) => {
   const { data, error, loading } = useQuery<PlayersQueryResponse>(
     ALL_PLAYERS_QUERY,
     { variables: { communityname } }
@@ -30,7 +39,10 @@ export const AddResult: React.FC<CommunityNameProps> = ({ communityname }) => {
         query: ALL_PLAYERS_QUERY,
         variables: { communityname }
       },
-      { query: ALL_RESULTS_QUERY, variables: { communityname } }
+      {
+        query: ALL_RESULTS_QUERY,
+        variables: { communityname, dateFrom, dateTo }
+      }
     ]
   });
 
