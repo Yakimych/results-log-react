@@ -1,15 +1,23 @@
 import { Result, Player } from "./queries";
-import { format } from "date-fns";
+import {
+  format,
+  getHours,
+  setHours,
+  getMinutes,
+  setMinutes,
+  setSeconds,
+  getSeconds
+} from "date-fns";
 
 export const formatDate = (date: Date) => format(date, "YYYY-MM-DD");
 
-// TODO: Add a test and use date-fns setHours, setMinutes, setSeconds
-export const withCurrentTime = (date: Date) => {
-  const dateWithCurrentTime = new Date();
-  dateWithCurrentTime.setFullYear(date.getFullYear());
-  dateWithCurrentTime.setMonth(date.getMonth());
-  dateWithCurrentTime.setDate(date.getDate());
-  return dateWithCurrentTime;
+export const withCurrentTime = (date: Date, now: Date) => {
+  const dateWithCurrentHours = setHours(date, getHours(now));
+  const dateWithCurrentMinutes = setMinutes(
+    dateWithCurrentHours,
+    getMinutes(now)
+  );
+  return setSeconds(dateWithCurrentMinutes, getSeconds(now));
 };
 
 export const validNumberOfGoals = (goalsString: string) => {

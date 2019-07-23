@@ -98,7 +98,7 @@ export const AddResult: React.FC<Props> = ({
           communityname,
           player1name,
           player2name,
-          date: withCurrentTime(date),
+          date: withCurrentTime(date, new Date()),
           player1goals: goals1,
           player2goals: goals2,
           extratime: extraTime
