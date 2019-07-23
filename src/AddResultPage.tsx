@@ -5,7 +5,7 @@ import { Results } from "./Results";
 import { CommunityNameProps } from "./RouteProps";
 import { startOfWeek, endOfWeek } from "date-fns";
 
-export const AllResultsPage: React.FC<
+export const AddResultPage: React.FC<
   RouteComponentProps<CommunityNameProps>
 > = ({ communityname }) => {
   const now = new Date();

@@ -1,7 +1,9 @@
 import { Result, Player } from "./queries";
+import { format } from "date-fns";
 
-export const formatDate = (date: Date) => date.toISOString().substring(0, 10);
+export const formatDate = (date: Date) => format(date, "YYYY-MM-DD");
 
+// TODO: Add a test and use date-fns setHours, setMinutes, setSeconds
 export const withCurrentTime = (date: Date) => {
   const dateWithCurrentTime = new Date();
   dateWithCurrentTime.setFullYear(date.getFullYear());
