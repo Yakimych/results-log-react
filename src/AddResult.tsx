@@ -115,7 +115,7 @@ export const AddResult: React.FC<Props> = ({
   const playerNames: readonly string[] = data.players.map(p => p.name);
 
   return (
-    <Paper style={{ width: 650, marginBottom: 30 }}>
+    <Paper style={{ width: 550, marginBottom: 30 }}>
       <div style={{ display: "flex" }}>
         <PlayerPicker
           placeholderText="Player1"
@@ -131,6 +131,11 @@ export const AddResult: React.FC<Props> = ({
           selectedPlayerName={player2name}
           onChange={setPlayer2name}
         />
+      </div>
+      <div style={{ display: "flex", justifyContent: "space-between" }}>
+        <Button variant="contained" color="primary" onClick={addResult}>
+          Submit
+        </Button>
         <FormControlLabel
           control={
             <Checkbox
@@ -141,11 +146,6 @@ export const AddResult: React.FC<Props> = ({
           }
           label="Extra Time"
         />
-      </div>
-      <div style={{ display: "flex", justifyContent: "space-between" }}>
-        <Button variant="contained" color="primary" onClick={addResult}>
-          Submit
-        </Button>
         <TextField
           type="date"
           value={formatDate(date)}

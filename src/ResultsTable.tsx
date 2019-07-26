@@ -53,7 +53,7 @@ const extraTimeStyle: React.CSSProperties = {
 };
 
 const containerStyle: React.CSSProperties = {
-  width: 650
+  width: 550
 };
 
 export const ResultsTable: React.FC<Props> = ({

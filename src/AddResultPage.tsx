@@ -4,6 +4,8 @@ import { AddResult } from "./AddResult";
 import { Results } from "./Results";
 import { CommunityNameProps } from "./RouteProps";
 import { startOfWeek, endOfWeek } from "date-fns";
+import { ExpansionPanel, ExpansionPanelSummary } from "@material-ui/core";
+import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
 
 export const AddResultPage: React.FC<
   RouteComponentProps<CommunityNameProps>
@@ -14,11 +16,20 @@ export const AddResultPage: React.FC<
 
   return communityname ? (
     <>
-      <AddResult
-        communityname={communityname}
-        dateFrom={startDate}
-        dateTo={endDate}
-      />
+      <ExpansionPanel>
+        <ExpansionPanelSummary
+          expandIcon={<ExpandMoreIcon />}
+          aria-controls="panel1c-content"
+          id="panel1c-header"
+        >
+          Add
+        </ExpansionPanelSummary>
+        <AddResult
+          communityname={communityname}
+          dateFrom={startDate}
+          dateTo={endDate}
+        />
+      </ExpansionPanel>
       <Results
         communityname={communityname}
         dateFrom={startDate}
