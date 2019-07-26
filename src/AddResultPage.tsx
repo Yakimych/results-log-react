@@ -17,12 +17,8 @@ export const AddResultPage: React.FC<
   return communityname ? (
     <>
       <ExpansionPanel>
-        <ExpansionPanelSummary
-          expandIcon={<ExpandMoreIcon />}
-          aria-controls="panel1c-content"
-          id="panel1c-header"
-        >
-          Add
+        <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
+          Add Result
         </ExpansionPanelSummary>
         <AddResult
           communityname={communityname}
