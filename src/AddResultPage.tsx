@@ -4,7 +4,8 @@ import { AddResult } from "./AddResult";
 import { Results } from "./Results";
 import { CommunityNameProps } from "./RouteProps";
 import { startOfWeek, endOfWeek } from "date-fns";
-import { ExpansionPanel, ExpansionPanelSummary } from "@material-ui/core";
+import { ExpansionPanel, ExpansionPanelSummary, Fab } from "@material-ui/core";
+import AddIcon from "@material-ui/icons/Add";
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
 
 export const AddResultPage: React.FC<
@@ -18,7 +19,9 @@ export const AddResultPage: React.FC<
     <>
       <ExpansionPanel>
         <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
-          Add Result
+          <Fab size="small" color="primary" aria-label="add">
+            <AddIcon />
+          </Fab>
         </ExpansionPanelSummary>
         <AddResult
           communityname={communityname}
