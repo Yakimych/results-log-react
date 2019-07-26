@@ -1,5 +1,5 @@
 import React from "react";
-import { RouteComponentProps } from "@reach/router";
+import { RouteComponentProps, Link } from "@reach/router";
 import { CommunityNameProps } from "./RouteProps";
 import { useQuery } from "react-apollo-hooks";
 import { PLAYER_RESULTS_QUERY } from "./queries";
@@ -45,6 +45,7 @@ export const PlayerResults: React.FC<RouteComponentProps<Props>> = ({
         results={playerResultsQuery.data.results}
         communityname={communityname}
       />
+      <Link to={`/${communityname}`}>Back to Start Page</Link>
     </>
   );
 };
