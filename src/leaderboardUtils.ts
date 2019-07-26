@@ -3,13 +3,16 @@ import { Result } from "./queries";
 type LeaderboardRow = {
   playerName: string;
   matchesWon: number;
-  // matchesWonPerPlayed: number;
   matchesLost: number;
   goalsScored: number;
-  // goalsScoredPerMatch: number;
   goalsConceded: number;
-  // goalsConcededPerMatch: number;
-  // goalsDiff: number;
+};
+
+type ExtendedLeaderboardRow = LeaderboardRow & {
+  matchesWonPerPlayed: number;
+  goalsScoredPerMatch: number;
+  goalsConcededPerMatch: number;
+  goalDiff: number;
 };
 
 export const MIN_MATCHES = 2;
@@ -54,9 +57,27 @@ const emptyRow = (playerName: string): LeaderboardRow => ({
   goalsConceded: 0
 });
 
+const toExtendedLeaderboardRow = (
+  row: LeaderboardRow
+): ExtendedLeaderboardRow => {
+  const totalMatches = row.matchesWon + row.matchesLost;
+
+  const goalsScoredPerMatch = row.goalsScored / totalMatches;
+  const goalsConcededPerMatch = row.goalsConceded / totalMatches;
+  const matchesWonPerPlayed = Math.round((row.matchesWon / totalMatches) * 100);
+  const goalDiff = row.goalsScored - row.goalsConceded;
+  return {
+    ...row,
+    matchesWonPerPlayed,
+    goalsScoredPerMatch,
+    goalsConcededPerMatch,
+    goalDiff
+  };
+};
+
 export const getLeaderboard = (
   results: readonly Result[]
-): readonly LeaderboardRow[] => {
+): readonly ExtendedLeaderboardRow[] => {
   const rowMap: Map<string, LeaderboardRow> = new Map<string, LeaderboardRow>();
 
   for (const result of results) {
@@ -75,5 +96,5 @@ export const getLeaderboard = (
     rowMap.set(result.player2.name, newPlayer2Row);
   }
 
-  return Array.from(rowMap.values());
+  return Array.from(rowMap.values()).map(toExtendedLeaderboardRow);
 };

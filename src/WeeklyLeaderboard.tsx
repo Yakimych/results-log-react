@@ -49,7 +49,9 @@ export const WeeklyLeaderboard: React.FC<Props> = ({
   if (allResultsQuery.data === undefined) return <p>Data is undefined</p>;
 
   const results = allResultsQuery.data.results;
-  const leaderboardRows = getLeaderboard(results);
+  const leaderboardRows = getLeaderboard(results).filter(
+    r => r.matchesWon + r.matchesLost >= MIN_MATCHES
+  );
 
   return (
     <>
@@ -71,17 +73,6 @@ export const WeeklyLeaderboard: React.FC<Props> = ({
           </TableHead>
           <TableBody>
             {leaderboardRows.map(r => {
-              const totalMatches = r.matchesWon + r.matchesLost;
-
-              if (totalMatches < MIN_MATCHES) return null;
-
-              const goalsScoredPerMatch = r.goalsScored / totalMatches;
-              const goalsConcededPerMatch = r.goalsConceded / totalMatches;
-              const matchesWonPerPlayed = Math.round(
-                (r.matchesWon / totalMatches) * 100
-              );
-              const goalDiff = r.goalsScored - r.goalsConceded;
-
               return (
                 <TableRow key={r.playerName}>
                   <TableCell align="right">
@@ -92,20 +83,19 @@ export const WeeklyLeaderboard: React.FC<Props> = ({
                       {r.playerName}
                     </Link>
                   </TableCell>
-                  <TableCell style={goalsStyle}>{totalMatches}</TableCell>
                   <TableCell style={goalsStyle}>
-                    {matchesWonPerPlayed}%
+                    {r.matchesWonPerPlayed}%
                   </TableCell>
                   <TableCell style={goalsStyle}>{r.matchesWon}</TableCell>
                   <TableCell style={goalsStyle}>{r.matchesLost}</TableCell>
                   <TableCell style={goalsStyle}>{r.goalsScored}</TableCell>
                   <TableCell style={goalsStyle}>{r.goalsConceded}</TableCell>
-                  <TableCell style={goalsStyle}>{goalDiff}</TableCell>
+                  <TableCell style={goalsStyle}>{r.goalDiff}</TableCell>
                   <TableCell style={goalsStyle}>
-                    {goalsScoredPerMatch.toFixed(2)}
+                    {r.goalsScoredPerMatch.toFixed(2)}
                   </TableCell>
                   <TableCell style={goalsStyle}>
-                    {goalsConcededPerMatch.toFixed(2)}
+                    {r.goalsConcededPerMatch.toFixed(2)}
                   </TableCell>
                 </TableRow>
               );
