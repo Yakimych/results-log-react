@@ -3,6 +3,7 @@ import { TextField, NativeSelect, OutlinedInput } from "@material-ui/core";
 import { validNumberOfGoals } from "./utils";
 
 type Props = {
+  disabled: boolean;
   selectedGoals: number;
   onChange: (goals: number) => void;
 };
@@ -25,6 +26,7 @@ export const GoalsPicker: React.FC<Props> = props => {
     <>
       {isInCustomMode ? (
         <TextField
+          disabled={props.disabled}
           className="highlighted"
           autoFocus
           type="number"
@@ -35,6 +37,7 @@ export const GoalsPicker: React.FC<Props> = props => {
         />
       ) : (
         <NativeSelect
+          disabled={props.disabled}
           onChange={e => handleSelectChange(e.target.value)}
           value={props.selectedGoals}
           input={<OutlinedInput style={{ width: 60 }} labelWidth={0} />}

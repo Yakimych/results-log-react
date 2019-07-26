@@ -56,6 +56,7 @@ export const AddResult: React.FC<Props> = ({
   const toggleExtraTime = () => setExtraTime(oldExtraTime => !oldExtraTime);
 
   const [date, setDate] = React.useState<Date>(new Date());
+  const [isAddingResult, setIsAddingResult] = React.useState<boolean>(false);
 
   const resetState = () => {
     setPlayer1name(null);
@@ -93,6 +94,7 @@ export const AddResult: React.FC<Props> = ({
         return;
       }
 
+      setIsAddingResult(true);
       addResultMutation({
         variables: {
           communityname,
@@ -103,8 +105,15 @@ export const AddResult: React.FC<Props> = ({
           player2goals: goals2,
           extratime: extraTime
         }
-      });
-      resetState();
+      })
+        .then(() => {
+          resetState();
+          setIsAddingResult(false);
+        })
+        .catch(e => {
+          console.error("Error: ", e);
+          // TODO: Error message for the user
+        });
     }
   };
 
@@ -118,14 +127,24 @@ export const AddResult: React.FC<Props> = ({
     <Paper style={{ width: 550, marginBottom: 30 }}>
       <div style={{ display: "flex" }}>
         <PlayerPicker
+          disabled={isAddingResult}
           placeholderText="Player1"
           playerNames={playerNames}
           selectedPlayerName={player1name}
           onChange={setPlayer1name}
         />
-        <GoalsPicker selectedGoals={goals1} onChange={setGoals1} />
-        <GoalsPicker selectedGoals={goals2} onChange={setGoals2} />
+        <GoalsPicker
+          disabled={isAddingResult}
+          selectedGoals={goals1}
+          onChange={setGoals1}
+        />
+        <GoalsPicker
+          disabled={isAddingResult}
+          selectedGoals={goals2}
+          onChange={setGoals2}
+        />
         <PlayerPicker
+          disabled={isAddingResult}
           placeholderText="Player2"
           playerNames={playerNames}
           selectedPlayerName={player2name}
@@ -133,12 +152,18 @@ export const AddResult: React.FC<Props> = ({
         />
       </div>
       <div style={{ display: "flex", justifyContent: "space-between" }}>
-        <Button variant="contained" color="primary" onClick={addResult}>
+        <Button
+          disabled={isAddingResult}
+          variant="contained"
+          color="primary"
+          onClick={addResult}
+        >
           Submit
         </Button>
         <FormControlLabel
           control={
             <Checkbox
+              disabled={isAddingResult}
               color="default"
               checked={extraTime}
               onClick={toggleExtraTime}
@@ -147,6 +172,7 @@ export const AddResult: React.FC<Props> = ({
           label="Extra Time"
         />
         <TextField
+          disabled={isAddingResult}
           type="date"
           value={formatDate(date)}
           onChange={e => setDate(new Date(e.target.value))}

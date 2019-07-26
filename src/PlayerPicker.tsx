@@ -2,6 +2,7 @@ import React from "react";
 import { TextField, NativeSelect, OutlinedInput } from "@material-ui/core";
 
 type Props = {
+  disabled: boolean;
   placeholderText?: string;
   playerNames: readonly string[];
   selectedPlayerName: string | null;
@@ -34,6 +35,7 @@ export const PlayerPicker: React.FC<Props> = props => {
     <>
       {isInCustomMode ? (
         <TextField
+          disabled={props.disabled}
           className="highlighted"
           autoFocus
           style={{ width: 200 }}
@@ -44,6 +46,7 @@ export const PlayerPicker: React.FC<Props> = props => {
         />
       ) : (
         <NativeSelect
+          disabled={props.disabled}
           style={{ width: 200 }}
           onChange={e => handleSelectChange(e.target.value)}
           value={props.selectedPlayerName || ""}
