@@ -7,6 +7,7 @@ import { startOfWeek, endOfWeek } from "date-fns";
 import { ExpansionPanel, ExpansionPanelSummary, Fab } from "@material-ui/core";
 import AddIcon from "@material-ui/icons/Add";
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
+import { WeeklyLeaderboard } from "./WeeklyLeaderboard";
 
 export const AddResultPage: React.FC<
   RouteComponentProps<CommunityNameProps>
@@ -36,6 +37,11 @@ export const AddResultPage: React.FC<
         highlightNewResults={true}
       />
       <Link to={`/${communityname}/history`}>All Results</Link>
+      <WeeklyLeaderboard
+        communityname={communityname}
+        dateFrom={startDate}
+        dateTo={endDate}
+      />
     </>
   ) : (
     <div>Invalid route</div>
