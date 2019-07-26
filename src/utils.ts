@@ -35,7 +35,7 @@ type WinningLosingResult = {
   extratime: boolean;
 };
 
-const toWinningLosingResult = (result: Result): WinningLosingResult => {
+export const toWinningLosingResult = (result: Result): WinningLosingResult => {
   const player1IsWinner = result.player1goals > result.player2goals;
   if (player1IsWinner) {
     return {
