@@ -8,7 +8,7 @@ type LeaderboardRow = {
   goalsConceded: number;
 };
 
-type ExtendedLeaderboardRow = LeaderboardRow & {
+export type ExtendedLeaderboardRow = LeaderboardRow & {
   matchesWonPerPlayed: number;
   goalsScoredPerMatch: number;
   goalsConcededPerMatch: number;

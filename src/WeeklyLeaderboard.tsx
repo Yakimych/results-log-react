@@ -11,7 +11,11 @@ import {
   TableBody
 } from "@material-ui/core";
 import { useQuery } from "react-apollo-hooks";
-import { getLeaderboard, MIN_MATCHES } from "./leaderboardUtils";
+import {
+  getLeaderboard,
+  MIN_MATCHES,
+  ExtendedLeaderboardRow
+} from "./leaderboardUtils";
 import { Link } from "@reach/router";
 
 type Props = {
@@ -35,6 +39,30 @@ const playerLinkStyle = {
   color: "rgba(0, 0, 0, 0.87)"
 };
 
+const getInternalSortFunc = (column: string) => {
+  switch (column) {
+    case "W/M":
+      return (row: ExtendedLeaderboardRow) => row.matchesWonPerPlayed;
+    case "W":
+      return (row: ExtendedLeaderboardRow) => row.matchesWon;
+    default:
+      return (row: ExtendedLeaderboardRow) => row.matchesWonPerPlayed;
+  }
+};
+
+const getSortFunc = (sortFunc: (row: ExtendedLeaderboardRow) => number) => (
+  row1: ExtendedLeaderboardRow,
+  row2: ExtendedLeaderboardRow
+) => {
+  if (sortFunc(row1) > sortFunc(row2)) {
+    return 1;
+  }
+  if (sortFunc(row1) < sortFunc(row2)) {
+    return -1;
+  }
+  return 0;
+};
+
 export const WeeklyLeaderboard: React.FC<Props> = ({
   communityname,
   dateFrom,
@@ -48,10 +76,14 @@ export const WeeklyLeaderboard: React.FC<Props> = ({
   if (allResultsQuery.error) return <p>Error!</p>;
   if (allResultsQuery.data === undefined) return <p>Data is undefined</p>;
 
+  const sortBy = "W/M";
+  const internalSortFunc = getInternalSortFunc(sortBy);
+  const sortFunc = getSortFunc(internalSortFunc);
+
   const results = allResultsQuery.data.results;
-  const leaderboardRows = getLeaderboard(results).filter(
-    r => r.matchesWon + r.matchesLost >= MIN_MATCHES
-  );
+  const leaderboardRows = getLeaderboard(results)
+    .filter(r => r.matchesWon + r.matchesLost >= MIN_MATCHES)
+    .sort(sortFunc);
 
   return (
     <>
@@ -60,7 +92,6 @@ export const WeeklyLeaderboard: React.FC<Props> = ({
           <TableHead>
             <TableRow>
               <TableCell align="right">Player</TableCell>
-              <TableCell style={goalsStyle}>TM</TableCell>
               <TableCell style={goalsStyle}>W/M</TableCell>
               <TableCell style={goalsStyle}>W</TableCell>
               <TableCell style={goalsStyle}>L</TableCell>
