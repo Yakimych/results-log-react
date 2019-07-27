@@ -40,7 +40,7 @@ const playerLinkStyle = {
   color: "rgba(0, 0, 0, 0.87)"
 };
 
-export const getInternalSortFunc = (sortBy: ColumnType) => {
+const getInternalSortFunc = (sortBy: ColumnType) => {
   switch (sortBy) {
     case "WINS_PER_MATCH":
       return (row: ExtendedLeaderboardRow) => row.matchesWonPerPlayed;
@@ -61,7 +61,7 @@ export const getInternalSortFunc = (sortBy: ColumnType) => {
   }
 };
 
-export const getSortFunc = (
+const getSortFunc = (
   sortFunc: (row: ExtendedLeaderboardRow) => number,
   sortDirection: SortDirection
 ) => (row1: ExtendedLeaderboardRow, row2: ExtendedLeaderboardRow) => {
