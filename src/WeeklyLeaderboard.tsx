@@ -103,6 +103,7 @@ export const WeeklyLeaderboard: React.FC<Props> = ({
   if (allResultsQuery.error) return <p>Error!</p>;
   if (allResultsQuery.data === undefined) return <p>Data is undefined</p>;
 
+  // TODO: Clean this up
   const internalSortFunc = getInternalSortFunc(sortBy);
   const sortFunc = getSortFunc(internalSortFunc, sortDirection);
 
@@ -111,8 +112,8 @@ export const WeeklyLeaderboard: React.FC<Props> = ({
     .filter(r => r.matchesWon + r.matchesLost >= MIN_MATCHES)
     .sort(sortFunc);
 
-  const requestSort = (by: ColumnType) => {
-    setSortBy(by);
+  const requestSort = (columnType: ColumnType) => {
+    setSortBy(columnType);
     setSortDirection(currentDirection =>
       currentDirection === "asc" ? "desc" : "asc"
     );
