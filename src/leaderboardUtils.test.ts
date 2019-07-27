@@ -1,6 +1,5 @@
 import { getLeaderboard, ExtendedLeaderboardRow } from "./leaderboardUtils";
 import { Result } from "./queries";
-import { getInternalSortFunc, getSortFunc } from "./WeeklyLeaderboard";
 
 const testResults: readonly Result[] = [
   {
@@ -113,57 +112,29 @@ const testResults: readonly Result[] = [
   }
 ];
 
-const expectedLeaderboard1: ExtendedLeaderboardRow[] = [
-  {
-    playerName: "qwe",
-    matchesWon: 2,
-    matchesLost: 3,
-    goalsScored: 15,
-    goalsConceded: 19,
-    matchesWonPerPlayed: 67,
-    goalsScoredPerMatch: 2.5,
-    goalsConcededPerMatch: 3.1666666666666665,
-    goalDiff: -4
-  },
-  {
-    playerName: "Abc",
-    matchesWon: 4,
-    matchesLost: 2,
-    goalsScored: 15,
-    goalsConceded: 19,
-    matchesWonPerPlayed: 67,
-    goalsScoredPerMatch: 2.5,
-    goalsConcededPerMatch: 3.1666666666666665,
-    goalDiff: -4
-  }
-];
-
-const expectedLeaderboard2: ExtendedLeaderboardRow[] = [
-  {
-    playerName: "Abc",
-    matchesWon: 4,
-    matchesLost: 2,
-    goalsScored: 15,
-    goalsConceded: 19,
-    matchesWonPerPlayed: 67,
-    goalsScoredPerMatch: 2.5,
-    goalsConcededPerMatch: 3.1666666666666665,
-    goalDiff: -4
-  },
-  {
-    playerName: "qwe",
-    matchesWon: 2,
-    matchesLost: 3,
-    goalsScored: 15,
-    goalsConceded: 19,
-    matchesWonPerPlayed: 67,
-    goalsScoredPerMatch: 2.5,
-    goalsConcededPerMatch: 3.1666666666666665,
-    goalDiff: -4
-  }
-];
-
 const expectedLeaderboard: ExtendedLeaderboardRow[] = [
+  {
+    playerName: "NewP1",
+    matchesWon: 1,
+    matchesLost: 0,
+    goalsScored: 2,
+    goalsConceded: 1,
+    matchesWonPerPlayed: 100,
+    goalsScoredPerMatch: 2,
+    goalsConcededPerMatch: 1,
+    goalDiff: 1
+  },
+  {
+    playerName: "New Player 5",
+    matchesWon: 1,
+    matchesLost: 0,
+    goalsScored: 2,
+    goalsConceded: 0,
+    matchesWonPerPlayed: 100,
+    goalsScoredPerMatch: 2,
+    goalsConcededPerMatch: 0,
+    goalDiff: 2
+  },
   {
     playerName: "Abc",
     matchesWon: 4,
@@ -229,8 +200,33 @@ const expectedLeaderboard: ExtendedLeaderboardRow[] = [
     goalsScoredPerMatch: 2,
     goalsConcededPerMatch: 4.5,
     goalDiff: -5
+  },
+  {
+    playerName: "NewP2",
+    matchesWon: 0,
+    matchesLost: 1,
+    goalsScored: 1,
+    goalsConceded: 2,
+    matchesWonPerPlayed: 0,
+    goalsScoredPerMatch: 1,
+    goalsConcededPerMatch: 2,
+    goalDiff: -1
+  },
+  {
+    playerName: "Cde",
+    matchesWon: 0,
+    matchesLost: 1,
+    goalsScored: 0,
+    goalsConceded: 2,
+    matchesWonPerPlayed: 0,
+    goalsScoredPerMatch: 0,
+    goalsConcededPerMatch: 2,
+    goalDiff: -2
   }
 ];
+
+const byName = (row1: ExtendedLeaderboardRow, row2: ExtendedLeaderboardRow) =>
+  row1.playerName.localeCompare(row2.playerName);
 
 describe("getLeaderboard", () => {
   test("should return empty leaderboard for empty results", () => {
@@ -238,21 +234,8 @@ describe("getLeaderboard", () => {
     expect(leaderboard.length).toBe(0);
   });
 
-  // test("should return correctly calculated leaderboard", () => {
-  //   const leaderboard = getLeaderboard(testResults) as ExtendedLeaderboardRow[];
-  //   leaderboard.sort();
-  //   expectedLeaderboard.sort();
-
-  //   expect(leaderboard).toEqual(expectedLeaderboard);
-  // });
-
   test("should return correctly calculated leaderboard", () => {
-    const internalSortFunc = getInternalSortFunc("WINS_PER_MATCH");
-    const sortFunc = getSortFunc(internalSortFunc, "desc");
-
-    expectedLeaderboard1.sort(sortFunc);
-    expectedLeaderboard2.sort(sortFunc);
-
-    expect(expectedLeaderboard1).toEqual(expectedLeaderboard2);
+    const leaderboard = getLeaderboard(testResults) as ExtendedLeaderboardRow[];
+    expect(leaderboard.sort(byName)).toEqual(expectedLeaderboard.sort(byName));
   });
 });
