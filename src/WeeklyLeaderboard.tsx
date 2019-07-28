@@ -118,7 +118,7 @@ export const WeeklyLeaderboard: React.FC<Props> = ({
             <TableHead>
               <TableRow>
                 <TableCell align="right">Player</TableCell>
-                <TableCell style={numberCellStyle}>
+                <TableCell style={numberCellStyle} title="Win Percentage">
                   <TableSortLabel
                     active={sortBy === ColumnType.WinsPerMatch}
                     direction={sortDirection}
@@ -127,7 +127,7 @@ export const WeeklyLeaderboard: React.FC<Props> = ({
                     W%
                   </TableSortLabel>
                 </TableCell>
-                <TableCell style={numberCellStyle}>
+                <TableCell style={numberCellStyle} title="Number of wins">
                   <TableSortLabel
                     active={sortBy === ColumnType.MatchesWon}
                     direction={sortDirection}
@@ -136,7 +136,7 @@ export const WeeklyLeaderboard: React.FC<Props> = ({
                     W
                   </TableSortLabel>
                 </TableCell>
-                <TableCell style={numberCellStyle}>
+                <TableCell style={numberCellStyle} title="Number of losses">
                   <TableSortLabel
                     active={sortBy === ColumnType.MatchesLost}
                     direction={sortDirection}
@@ -145,7 +145,7 @@ export const WeeklyLeaderboard: React.FC<Props> = ({
                     L
                   </TableSortLabel>
                 </TableCell>
-                <TableCell style={numberCellStyle}>
+                <TableCell style={numberCellStyle} title="Goals scored">
                   <TableSortLabel
                     active={sortBy === ColumnType.GoalsScored}
                     direction={sortDirection}
@@ -154,7 +154,7 @@ export const WeeklyLeaderboard: React.FC<Props> = ({
                     GS
                   </TableSortLabel>
                 </TableCell>
-                <TableCell style={numberCellStyle}>
+                <TableCell style={numberCellStyle} title="Goals conceded">
                   <TableSortLabel
                     active={sortBy === ColumnType.GoalsConceded}
                     direction={sortDirection}
@@ -163,7 +163,7 @@ export const WeeklyLeaderboard: React.FC<Props> = ({
                     GC
                   </TableSortLabel>
                 </TableCell>
-                <TableCell style={numberCellStyle}>
+                <TableCell style={numberCellStyle} title="Goal difference">
                   <TableSortLabel
                     active={sortBy === ColumnType.GoalDiff}
                     direction={sortDirection}
@@ -172,7 +172,10 @@ export const WeeklyLeaderboard: React.FC<Props> = ({
                     +/-
                   </TableSortLabel>
                 </TableCell>
-                <TableCell style={numberCellStyle}>
+                <TableCell
+                  style={numberCellStyle}
+                  title="Goals scored per match"
+                >
                   <TableSortLabel
                     active={sortBy === ColumnType.GoalsScoredPerMatch}
                     direction={sortDirection}
@@ -181,7 +184,10 @@ export const WeeklyLeaderboard: React.FC<Props> = ({
                     G/M
                   </TableSortLabel>
                 </TableCell>
-                <TableCell style={numberCellStyle}>
+                <TableCell
+                  style={numberCellStyle}
+                  title="Goals conceded per match"
+                >
                   <TableSortLabel
                     active={sortBy === ColumnType.GoalsConcededPerMatch}
                     direction={sortDirection}
