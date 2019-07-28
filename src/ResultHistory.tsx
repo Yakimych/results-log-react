@@ -12,8 +12,8 @@ export const ResultHistory: React.FC<
   const [date, setDate] = React.useState<Date>(new Date());
   const incrementWeek = () => setDate(d => addWeeks(d, 1));
   const decrementWeek = () => setDate(d => addWeeks(d, -1));
-  const startDate = startOfWeek(date);
-  const endDate = endOfWeek(date);
+  const startDate = startOfWeek(date, { weekStartsOn: 1 });
+  const endDate = endOfWeek(date, { weekStartsOn: 1 });
 
   return communityname ? (
     <>
