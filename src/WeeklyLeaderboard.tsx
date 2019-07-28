@@ -24,6 +24,19 @@ type Props = {
   dateTo?: Date;
 } & CommunityNameProps;
 
+type SortDirection = "asc" | "desc";
+
+enum ColumnType {
+  WinsPerMatch,
+  MatchesWon,
+  MatchesLost,
+  GoalsScored,
+  GoalsConceded,
+  GoalDiff,
+  GoalsScoredPerMatch,
+  GoalsConcededPerMatch
+}
+
 // TODO: Reuse styles
 const containerStyle: React.CSSProperties = {
   width: 550
@@ -42,21 +55,21 @@ const playerLinkStyle = {
 
 const getInternalSortFunc = (sortBy: ColumnType) => {
   switch (sortBy) {
-    case "WINS_PER_MATCH":
+    case ColumnType.WinsPerMatch:
       return (row: ExtendedLeaderboardRow) => row.matchesWonPerPlayed;
-    case "WINS":
+    case ColumnType.MatchesWon:
       return (row: ExtendedLeaderboardRow) => row.matchesWon;
-    case "LOSSES":
+    case ColumnType.MatchesLost:
       return (row: ExtendedLeaderboardRow) => row.matchesLost;
-    case "GOALS_SCORED":
+    case ColumnType.GoalsScored:
       return (row: ExtendedLeaderboardRow) => row.goalsScored;
-    case "GOALS_CONCEDED":
+    case ColumnType.GoalsConceded:
       return (row: ExtendedLeaderboardRow) => row.goalsConceded;
-    case "GOAL_DIFF":
+    case ColumnType.GoalDiff:
       return (row: ExtendedLeaderboardRow) => row.goalDiff;
-    case "GOALS_PER_MATCH":
+    case ColumnType.GoalsScoredPerMatch:
       return (row: ExtendedLeaderboardRow) => row.goalsScoredPerMatch;
-    case "GOALS_CONCEDED_PER_MATCH":
+    case ColumnType.GoalsConcededPerMatch:
       return (row: ExtendedLeaderboardRow) => row.goalsConcededPerMatch;
   }
 };
@@ -74,17 +87,6 @@ const getSortFunc = (
   return 0;
 };
 
-type SortDirection = "asc" | "desc";
-type ColumnType =
-  | "WINS_PER_MATCH"
-  | "WINS"
-  | "LOSSES"
-  | "GOALS_SCORED"
-  | "GOALS_CONCEDED"
-  | "GOAL_DIFF"
-  | "GOALS_PER_MATCH"
-  | "GOALS_CONCEDED_PER_MATCH";
-
 export const WeeklyLeaderboard: React.FC<Props> = ({
   communityname,
   dateFrom,
@@ -94,7 +96,9 @@ export const WeeklyLeaderboard: React.FC<Props> = ({
     variables: { communityname, dateFrom, dateTo }
   });
 
-  const [sortBy, setSortBy] = React.useState<ColumnType>("WINS_PER_MATCH");
+  const [sortBy, setSortBy] = React.useState<ColumnType>(
+    ColumnType.WinsPerMatch
+  );
   const [sortDirection, setSortDirection] = React.useState<SortDirection>(
     "desc"
   );
@@ -128,72 +132,72 @@ export const WeeklyLeaderboard: React.FC<Props> = ({
               <TableCell align="right">Player</TableCell>
               <TableCell style={goalsStyle}>
                 <TableSortLabel
-                  active={sortBy === "WINS_PER_MATCH"}
+                  active={sortBy === ColumnType.WinsPerMatch}
                   direction={sortDirection}
-                  onClick={() => requestSort("WINS_PER_MATCH")}
+                  onClick={() => requestSort(ColumnType.WinsPerMatch)}
                 >
                   W%
                 </TableSortLabel>
               </TableCell>
               <TableCell style={goalsStyle}>
                 <TableSortLabel
-                  active={sortBy === "WINS"}
+                  active={sortBy === ColumnType.MatchesWon}
                   direction={sortDirection}
-                  onClick={() => requestSort("WINS")}
+                  onClick={() => requestSort(ColumnType.MatchesWon)}
                 >
                   W
                 </TableSortLabel>
               </TableCell>
               <TableCell style={goalsStyle}>
                 <TableSortLabel
-                  active={sortBy === "LOSSES"}
+                  active={sortBy === ColumnType.MatchesLost}
                   direction={sortDirection}
-                  onClick={() => requestSort("LOSSES")}
+                  onClick={() => requestSort(ColumnType.MatchesLost)}
                 >
                   L
                 </TableSortLabel>
               </TableCell>
               <TableCell style={goalsStyle}>
                 <TableSortLabel
-                  active={sortBy === "GOALS_SCORED"}
+                  active={sortBy === ColumnType.GoalsScored}
                   direction={sortDirection}
-                  onClick={() => requestSort("GOALS_SCORED")}
+                  onClick={() => requestSort(ColumnType.GoalsScored)}
                 >
                   GS
                 </TableSortLabel>
               </TableCell>
               <TableCell style={goalsStyle}>
                 <TableSortLabel
-                  active={sortBy === "GOALS_CONCEDED"}
+                  active={sortBy === ColumnType.GoalsConceded}
                   direction={sortDirection}
-                  onClick={() => requestSort("GOALS_CONCEDED")}
+                  onClick={() => requestSort(ColumnType.GoalsConceded)}
                 >
                   GC
                 </TableSortLabel>
               </TableCell>
               <TableCell style={goalsStyle}>
                 <TableSortLabel
-                  active={sortBy === "GOAL_DIFF"}
+                  active={sortBy === ColumnType.GoalDiff}
                   direction={sortDirection}
-                  onClick={() => requestSort("GOAL_DIFF")}
+                  onClick={() => requestSort(ColumnType.GoalDiff)}
                 >
                   +/-
                 </TableSortLabel>
               </TableCell>
               <TableCell style={goalsStyle}>
                 <TableSortLabel
-                  active={sortBy === "GOALS_PER_MATCH"}
+                  active={sortBy === ColumnType.GoalsScoredPerMatch}
                   direction={sortDirection}
-                  onClick={() => requestSort("GOALS_PER_MATCH")}
+                  onClick={() => requestSort(ColumnType.GoalsScoredPerMatch)}
                 >
                   G/M
                 </TableSortLabel>
               </TableCell>
               <TableCell style={goalsStyle}>
                 <TableSortLabel
-                  active={sortBy === "GOALS_CONCEDED_PER_MATCH"}
+                  active={sortBy === ColumnType.GoalsConcededPerMatch}
                   direction={sortDirection}
-                  onClick={() => requestSort("GOALS_CONCEDED_PER_MATCH")}
+                  onClick={() => requestSort(ColumnType.GoalsConcededPerMatch)}
                 >
                   C/M
                 </TableSortLabel>
