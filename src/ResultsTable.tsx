@@ -10,6 +10,7 @@ import {
 } from "@material-ui/core";
 import { formatDate } from "./utils";
 import { Link } from "@reach/router";
+import { containerStyle, numberCellStyle, playerLinkStyle } from "./styles";
 
 type Props = {
   results: readonly Result[];
@@ -20,17 +21,6 @@ type Props = {
 const getPlayerStyle = (isWinningPlayer: boolean): React.CSSProperties => ({
   fontWeight: isWinningPlayer ? "bold" : "normal"
 });
-
-const playerLinkStyle = {
-  textDecoration: "none",
-  color: "rgba(0, 0, 0, 0.87)"
-};
-
-const goalsStyle: React.CSSProperties = {
-  width: 20,
-  paddingLeft: 10,
-  paddingRight: 0
-};
 
 const headToHeadStyle: React.CSSProperties = {
   width: 20,
@@ -52,10 +42,6 @@ const extraTimeStyle: React.CSSProperties = {
   width: 20
 };
 
-const containerStyle: React.CSSProperties = {
-  width: 550
-};
-
 export const ResultsTable: React.FC<Props> = ({
   results,
   newResults,
@@ -68,9 +54,9 @@ export const ResultsTable: React.FC<Props> = ({
           <TableRow>
             <TableCell style={headToHeadStyle}>H2H</TableCell>
             <TableCell align="right">Player1</TableCell>
-            <TableCell style={goalsStyle}>G1</TableCell>
+            <TableCell style={numberCellStyle}>G1</TableCell>
             <TableCell style={colonStyle} />
-            <TableCell style={goalsStyle}>G2</TableCell>
+            <TableCell style={numberCellStyle}>G2</TableCell>
             <TableCell>Player2</TableCell>
             <TableCell style={extraTimeStyle} align="right">
               E
@@ -106,9 +92,9 @@ export const ResultsTable: React.FC<Props> = ({
                     {r.player1.name}
                   </Link>
                 </TableCell>
-                <TableCell style={goalsStyle}>{r.player1goals}</TableCell>
+                <TableCell style={numberCellStyle}>{r.player1goals}</TableCell>
                 <TableCell style={colonStyle}> : </TableCell>
-                <TableCell style={goalsStyle}>{r.player2goals}</TableCell>
+                <TableCell style={numberCellStyle}>{r.player2goals}</TableCell>
                 <TableCell style={getPlayerStyle(player2Won)}>
                   <Link
                     to={`/${communityName}/${r.player2.name}`}
