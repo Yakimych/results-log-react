@@ -9,7 +9,8 @@ import {
   TableRow,
   TableCell,
   TableBody,
-  TableSortLabel
+  TableSortLabel,
+  Typography
 } from "@material-ui/core";
 import { useQuery } from "react-apollo-hooks";
 import {
@@ -125,120 +126,125 @@ export const WeeklyLeaderboard: React.FC<Props> = ({
 
   return (
     <>
-      <Paper style={containerStyle}>
-        <Table style={containerStyle} size="small">
-          <TableHead>
-            <TableRow>
-              <TableCell align="right">Player</TableCell>
-              <TableCell style={goalsStyle}>
-                <TableSortLabel
-                  active={sortBy === ColumnType.WinsPerMatch}
-                  direction={sortDirection}
-                  onClick={() => requestSort(ColumnType.WinsPerMatch)}
-                >
-                  W%
-                </TableSortLabel>
-              </TableCell>
-              <TableCell style={goalsStyle}>
-                <TableSortLabel
-                  active={sortBy === ColumnType.MatchesWon}
-                  direction={sortDirection}
-                  onClick={() => requestSort(ColumnType.MatchesWon)}
-                >
-                  W
-                </TableSortLabel>
-              </TableCell>
-              <TableCell style={goalsStyle}>
-                <TableSortLabel
-                  active={sortBy === ColumnType.MatchesLost}
-                  direction={sortDirection}
-                  onClick={() => requestSort(ColumnType.MatchesLost)}
-                >
-                  L
-                </TableSortLabel>
-              </TableCell>
-              <TableCell style={goalsStyle}>
-                <TableSortLabel
-                  active={sortBy === ColumnType.GoalsScored}
-                  direction={sortDirection}
-                  onClick={() => requestSort(ColumnType.GoalsScored)}
-                >
-                  GS
-                </TableSortLabel>
-              </TableCell>
-              <TableCell style={goalsStyle}>
-                <TableSortLabel
-                  active={sortBy === ColumnType.GoalsConceded}
-                  direction={sortDirection}
-                  onClick={() => requestSort(ColumnType.GoalsConceded)}
-                >
-                  GC
-                </TableSortLabel>
-              </TableCell>
-              <TableCell style={goalsStyle}>
-                <TableSortLabel
-                  active={sortBy === ColumnType.GoalDiff}
-                  direction={sortDirection}
-                  onClick={() => requestSort(ColumnType.GoalDiff)}
-                >
-                  +/-
-                </TableSortLabel>
-              </TableCell>
-              <TableCell style={goalsStyle}>
-                <TableSortLabel
-                  active={sortBy === ColumnType.GoalsScoredPerMatch}
-                  direction={sortDirection}
-                  onClick={() => requestSort(ColumnType.GoalsScoredPerMatch)}
-                >
-                  G/M
-                </TableSortLabel>
-              </TableCell>
-              <TableCell style={goalsStyle}>
-                <TableSortLabel
-                  active={sortBy === ColumnType.GoalsConcededPerMatch}
-                  direction={sortDirection}
-                  onClick={() => requestSort(ColumnType.GoalsConcededPerMatch)}
-                >
-                  C/M
-                </TableSortLabel>
-              </TableCell>
-            </TableRow>
-          </TableHead>
-          <TableBody>
-            {leaderboardRows.map(r => {
-              return (
-                <TableRow key={r.playerName}>
-                  <TableCell align="right">
-                    <Link
-                      to={`/${communityname}/${r.playerName}`}
-                      style={playerLinkStyle}
-                    >
-                      {r.playerName}
-                    </Link>
-                  </TableCell>
-                  <TableCell style={goalsStyle}>
-                    {r.matchesWonPerPlayed}%
-                  </TableCell>
-                  <TableCell style={goalsStyle}>{r.matchesWon}</TableCell>
-                  <TableCell style={goalsStyle}>{r.matchesLost}</TableCell>
-                  <TableCell style={goalsStyle}>{r.goalsScored}</TableCell>
-                  <TableCell style={goalsStyle}>{r.goalsConceded}</TableCell>
-                  <TableCell style={goalsStyle}>
-                    {r.goalDiff > 0 ? "+" : ""}
-                    {r.goalDiff}
-                  </TableCell>
-                  <TableCell style={goalsStyle}>
-                    {r.goalsScoredPerMatch.toFixed(1)}
-                  </TableCell>
-                  <TableCell style={goalsStyle}>
-                    {r.goalsConcededPerMatch.toFixed(1)}
-                  </TableCell>
-                </TableRow>
-              );
-            })}
-          </TableBody>
-        </Table>
-      </Paper>
+      {leaderboardRows.length === 0 ? null : (
+        <Paper style={containerStyle}>
+          <Typography variant="h6">Weekly stats</Typography>
+          <Table style={containerStyle} size="small">
+            <TableHead>
+              <TableRow>
+                <TableCell align="right">Player</TableCell>
+                <TableCell style={goalsStyle}>
+                  <TableSortLabel
+                    active={sortBy === ColumnType.WinsPerMatch}
+                    direction={sortDirection}
+                    onClick={() => requestSort(ColumnType.WinsPerMatch)}
+                  >
+                    W%
+                  </TableSortLabel>
+                </TableCell>
+                <TableCell style={goalsStyle}>
+                  <TableSortLabel
+                    active={sortBy === ColumnType.MatchesWon}
+                    direction={sortDirection}
+                    onClick={() => requestSort(ColumnType.MatchesWon)}
+                  >
+                    W
+                  </TableSortLabel>
+                </TableCell>
+                <TableCell style={goalsStyle}>
+                  <TableSortLabel
+                    active={sortBy === ColumnType.MatchesLost}
+                    direction={sortDirection}
+                    onClick={() => requestSort(ColumnType.MatchesLost)}
+                  >
+                    L
+                  </TableSortLabel>
+                </TableCell>
+                <TableCell style={goalsStyle}>
+                  <TableSortLabel
+                    active={sortBy === ColumnType.GoalsScored}
+                    direction={sortDirection}
+                    onClick={() => requestSort(ColumnType.GoalsScored)}
+                  >
+                    GS
+                  </TableSortLabel>
+                </TableCell>
+                <TableCell style={goalsStyle}>
+                  <TableSortLabel
+                    active={sortBy === ColumnType.GoalsConceded}
+                    direction={sortDirection}
+                    onClick={() => requestSort(ColumnType.GoalsConceded)}
+                  >
+                    GC
+                  </TableSortLabel>
+                </TableCell>
+                <TableCell style={goalsStyle}>
+                  <TableSortLabel
+                    active={sortBy === ColumnType.GoalDiff}
+                    direction={sortDirection}
+                    onClick={() => requestSort(ColumnType.GoalDiff)}
+                  >
+                    +/-
+                  </TableSortLabel>
+                </TableCell>
+                <TableCell style={goalsStyle}>
+                  <TableSortLabel
+                    active={sortBy === ColumnType.GoalsScoredPerMatch}
+                    direction={sortDirection}
+                    onClick={() => requestSort(ColumnType.GoalsScoredPerMatch)}
+                  >
+                    G/M
+                  </TableSortLabel>
+                </TableCell>
+                <TableCell style={goalsStyle}>
+                  <TableSortLabel
+                    active={sortBy === ColumnType.GoalsConcededPerMatch}
+                    direction={sortDirection}
+                    onClick={() =>
+                      requestSort(ColumnType.GoalsConcededPerMatch)
+                    }
+                  >
+                    C/M
+                  </TableSortLabel>
+                </TableCell>
+              </TableRow>
+            </TableHead>
+            <TableBody>
+              {leaderboardRows.map(r => {
+                return (
+                  <TableRow key={r.playerName}>
+                    <TableCell align="right">
+                      <Link
+                        to={`/${communityname}/${r.playerName}`}
+                        style={playerLinkStyle}
+                      >
+                        {r.playerName}
+                      </Link>
+                    </TableCell>
+                    <TableCell style={goalsStyle}>
+                      {r.matchesWonPerPlayed}%
+                    </TableCell>
+                    <TableCell style={goalsStyle}>{r.matchesWon}</TableCell>
+                    <TableCell style={goalsStyle}>{r.matchesLost}</TableCell>
+                    <TableCell style={goalsStyle}>{r.goalsScored}</TableCell>
+                    <TableCell style={goalsStyle}>{r.goalsConceded}</TableCell>
+                    <TableCell style={goalsStyle}>
+                      {r.goalDiff > 0 ? "+" : ""}
+                      {r.goalDiff}
+                    </TableCell>
+                    <TableCell style={goalsStyle}>
+                      {r.goalsScoredPerMatch.toFixed(1)}
+                    </TableCell>
+                    <TableCell style={goalsStyle}>
+                      {r.goalsConcededPerMatch.toFixed(1)}
+                    </TableCell>
+                  </TableRow>
+                );
+              })}
+            </TableBody>
+          </Table>
+        </Paper>
+      )}
     </>
   );
 };
