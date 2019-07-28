@@ -2,9 +2,10 @@ import React from "react";
 import { RouteComponentProps, Link } from "@reach/router";
 import { Results } from "./Results";
 import { CommunityNameProps } from "./RouteProps";
-import { Box, TextField, Button } from "@material-ui/core";
+import { Box, TextField, Button, Typography } from "@material-ui/core";
 import { formatDate } from "./utils";
 import { addWeeks, startOfWeek, endOfWeek } from "date-fns";
+import { WeeklyLeaderboard } from "./WeeklyLeaderboard";
 
 export const ResultHistory: React.FC<
   RouteComponentProps<CommunityNameProps>
@@ -34,6 +35,12 @@ export const ResultHistory: React.FC<
       <Box textAlign="center">
         Results from {formatDate(startDate)} to {formatDate(endDate)}
       </Box>
+      <WeeklyLeaderboard
+        communityname={communityname}
+        dateFrom={startDate}
+        dateTo={endDate}
+      />
+      <Typography variant="h6">Results</Typography>
       <Results
         communityname={communityname}
         dateFrom={startDate}
