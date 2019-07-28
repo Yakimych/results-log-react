@@ -15,7 +15,7 @@ import {
 import { useQuery } from "react-apollo-hooks";
 import {
   getLeaderboard,
-  MIN_MATCHES,
+  MIN_MATCHES_FOR_STATS,
   ExtendedLeaderboardRow
 } from "./leaderboardUtils";
 import { Link } from "@reach/router";
@@ -100,7 +100,7 @@ export const WeeklyLeaderboard: React.FC<Props> = ({
 
   const results = allResultsQuery.data.results;
   const leaderboardRows = getLeaderboard(results)
-    .filter(r => r.matchesWon + r.matchesLost >= MIN_MATCHES)
+    .filter(r => r.matchesWon + r.matchesLost >= MIN_MATCHES_FOR_STATS)
     .sort(getSortFunc(sortBy, sortDirection));
 
   const requestSort = (columnType: ColumnType) => {
