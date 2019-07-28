@@ -19,6 +19,7 @@ import {
   ExtendedLeaderboardRow
 } from "./leaderboardUtils";
 import { Link } from "@reach/router";
+import { containerStyle, numberCellStyle, playerLinkStyle } from "./styles";
 
 type Props = {
   dateFrom?: Date;
@@ -37,22 +38,6 @@ enum ColumnType {
   GoalsScoredPerMatch,
   GoalsConcededPerMatch
 }
-
-// TODO: Reuse styles
-const containerStyle: React.CSSProperties = {
-  width: 550
-};
-
-const goalsStyle: React.CSSProperties = {
-  width: 20,
-  paddingLeft: 10,
-  paddingRight: 0
-};
-
-const playerLinkStyle = {
-  textDecoration: "none",
-  color: "rgba(0, 0, 0, 0.87)"
-};
 
 const getInternalSortFunc = (sortBy: ColumnType) => {
   switch (sortBy) {
@@ -133,7 +118,7 @@ export const WeeklyLeaderboard: React.FC<Props> = ({
             <TableHead>
               <TableRow>
                 <TableCell align="right">Player</TableCell>
-                <TableCell style={goalsStyle}>
+                <TableCell style={numberCellStyle}>
                   <TableSortLabel
                     active={sortBy === ColumnType.WinsPerMatch}
                     direction={sortDirection}
@@ -142,7 +127,7 @@ export const WeeklyLeaderboard: React.FC<Props> = ({
                     W%
                   </TableSortLabel>
                 </TableCell>
-                <TableCell style={goalsStyle}>
+                <TableCell style={numberCellStyle}>
                   <TableSortLabel
                     active={sortBy === ColumnType.MatchesWon}
                     direction={sortDirection}
@@ -151,7 +136,7 @@ export const WeeklyLeaderboard: React.FC<Props> = ({
                     W
                   </TableSortLabel>
                 </TableCell>
-                <TableCell style={goalsStyle}>
+                <TableCell style={numberCellStyle}>
                   <TableSortLabel
                     active={sortBy === ColumnType.MatchesLost}
                     direction={sortDirection}
@@ -160,7 +145,7 @@ export const WeeklyLeaderboard: React.FC<Props> = ({
                     L
                   </TableSortLabel>
                 </TableCell>
-                <TableCell style={goalsStyle}>
+                <TableCell style={numberCellStyle}>
                   <TableSortLabel
                     active={sortBy === ColumnType.GoalsScored}
                     direction={sortDirection}
@@ -169,7 +154,7 @@ export const WeeklyLeaderboard: React.FC<Props> = ({
                     GS
                   </TableSortLabel>
                 </TableCell>
-                <TableCell style={goalsStyle}>
+                <TableCell style={numberCellStyle}>
                   <TableSortLabel
                     active={sortBy === ColumnType.GoalsConceded}
                     direction={sortDirection}
@@ -178,7 +163,7 @@ export const WeeklyLeaderboard: React.FC<Props> = ({
                     GC
                   </TableSortLabel>
                 </TableCell>
-                <TableCell style={goalsStyle}>
+                <TableCell style={numberCellStyle}>
                   <TableSortLabel
                     active={sortBy === ColumnType.GoalDiff}
                     direction={sortDirection}
@@ -187,7 +172,7 @@ export const WeeklyLeaderboard: React.FC<Props> = ({
                     +/-
                   </TableSortLabel>
                 </TableCell>
-                <TableCell style={goalsStyle}>
+                <TableCell style={numberCellStyle}>
                   <TableSortLabel
                     active={sortBy === ColumnType.GoalsScoredPerMatch}
                     direction={sortDirection}
@@ -196,7 +181,7 @@ export const WeeklyLeaderboard: React.FC<Props> = ({
                     G/M
                   </TableSortLabel>
                 </TableCell>
-                <TableCell style={goalsStyle}>
+                <TableCell style={numberCellStyle}>
                   <TableSortLabel
                     active={sortBy === ColumnType.GoalsConcededPerMatch}
                     direction={sortDirection}
@@ -221,21 +206,29 @@ export const WeeklyLeaderboard: React.FC<Props> = ({
                         {r.playerName}
                       </Link>
                     </TableCell>
-                    <TableCell style={goalsStyle}>
+                    <TableCell style={numberCellStyle}>
                       {r.matchesWonPerPlayed}%
                     </TableCell>
-                    <TableCell style={goalsStyle}>{r.matchesWon}</TableCell>
-                    <TableCell style={goalsStyle}>{r.matchesLost}</TableCell>
-                    <TableCell style={goalsStyle}>{r.goalsScored}</TableCell>
-                    <TableCell style={goalsStyle}>{r.goalsConceded}</TableCell>
-                    <TableCell style={goalsStyle}>
+                    <TableCell style={numberCellStyle}>
+                      {r.matchesWon}
+                    </TableCell>
+                    <TableCell style={numberCellStyle}>
+                      {r.matchesLost}
+                    </TableCell>
+                    <TableCell style={numberCellStyle}>
+                      {r.goalsScored}
+                    </TableCell>
+                    <TableCell style={numberCellStyle}>
+                      {r.goalsConceded}
+                    </TableCell>
+                    <TableCell style={numberCellStyle}>
                       {r.goalDiff > 0 ? "+" : ""}
                       {r.goalDiff}
                     </TableCell>
-                    <TableCell style={goalsStyle}>
+                    <TableCell style={numberCellStyle}>
                       {r.goalsScoredPerMatch.toFixed(1)}
                     </TableCell>
-                    <TableCell style={goalsStyle}>
+                    <TableCell style={numberCellStyle}>
                       {r.goalsConcededPerMatch.toFixed(1)}
                     </TableCell>
                   </TableRow>
