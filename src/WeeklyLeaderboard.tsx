@@ -39,7 +39,7 @@ enum ColumnType {
   GoalsConcededPerMatch
 }
 
-const getInternalSortFunc = (sortBy: ColumnType) => {
+const getValueToCompareFunc = (sortBy: ColumnType) => {
   switch (sortBy) {
     case ColumnType.WinsPerMatch:
       return (row: ExtendedLeaderboardRow) => row.matchesWonPerPlayed;
@@ -60,14 +60,19 @@ const getInternalSortFunc = (sortBy: ColumnType) => {
   }
 };
 
-const getSortFunc = (
-  sortFunc: (row: ExtendedLeaderboardRow) => number,
-  sortDirection: SortDirection
-) => (row1: ExtendedLeaderboardRow, row2: ExtendedLeaderboardRow) => {
-  if (sortFunc(row1) > sortFunc(row2)) {
+const getSortFunc = (sortBy: ColumnType, sortDirection: SortDirection) => (
+  row1: ExtendedLeaderboardRow,
+  row2: ExtendedLeaderboardRow
+) => {
+  const getValueToCompare = getValueToCompareFunc(sortBy);
+
+  const valueFromRow1ToCompare = getValueToCompare(row1);
+  const valueFromRow2ToCompare = getValueToCompare(row2);
+
+  if (valueFromRow1ToCompare > valueFromRow2ToCompare) {
     return sortDirection === "asc" ? 1 : -1;
   }
-  if (sortFunc(row1) < sortFunc(row2)) {
+  if (valueFromRow1ToCompare < valueFromRow2ToCompare) {
     return sortDirection === "asc" ? -1 : 1;
   }
   return 0;
@@ -93,14 +98,10 @@ export const WeeklyLeaderboard: React.FC<Props> = ({
   if (allResultsQuery.error) return <p>Error!</p>;
   if (allResultsQuery.data === undefined) return <p>Data is undefined</p>;
 
-  // TODO: Clean this up
-  const internalSortFunc = getInternalSortFunc(sortBy);
-  const sortFunc = getSortFunc(internalSortFunc, sortDirection);
-
   const results = allResultsQuery.data.results;
   const leaderboardRows = getLeaderboard(results)
     .filter(r => r.matchesWon + r.matchesLost >= MIN_MATCHES)
-    .sort(sortFunc);
+    .sort(getSortFunc(sortBy, sortDirection));
 
   const requestSort = (columnType: ColumnType) => {
     setSortBy(columnType);
