@@ -58,7 +58,7 @@ export const ResultsTable: React.FC<Props> = ({
             <TableCell style={colonStyle} />
             <TableCell style={numberCellStyle}>G2</TableCell>
             <TableCell>Player2</TableCell>
-            <TableCell style={extraTimeStyle} align="right">
+            <TableCell style={extraTimeStyle} align="right" title="Extra time">
               E
             </TableCell>
             <TableCell style={dateStyle}>Date</TableCell>
