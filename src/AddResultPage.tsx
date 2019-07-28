@@ -13,7 +13,7 @@ export const AddResultPage: React.FC<
   RouteComponentProps<CommunityNameProps>
 > = ({ communityname }) => {
   const now = new Date();
-  const startDate = startOfWeek(now);
+  const startDate = startOfWeek(now, { weekStartsOn: 1 });
   const endDate = endOfWeek(now);
 
   return communityname ? (
