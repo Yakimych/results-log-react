@@ -15,7 +15,8 @@ export type ExtendedLeaderboardRow = LeaderboardRow & {
   goalDiff: number;
 };
 
-export const MIN_MATCHES = 2;
+// TODO: Either set to 3 after the test-period, or make configurable
+export const MIN_MATCHES_FOR_STATS = 1;
 
 const addResultToRow = (
   row: LeaderboardRow,
