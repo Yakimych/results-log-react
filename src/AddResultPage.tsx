@@ -18,6 +18,11 @@ export const AddResultPage: React.FC<
 
   return communityname ? (
     <>
+      <WeeklyLeaderboard
+        communityname={communityname}
+        dateFrom={startDate}
+        dateTo={endDate}
+      />
       <ExpansionPanel>
         <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
           <Fab size="small" color="primary" aria-label="add">
@@ -37,11 +42,6 @@ export const AddResultPage: React.FC<
         highlightNewResults={true}
       />
       <Link to={`/${communityname}/history`}>All Results</Link>
-      <WeeklyLeaderboard
-        communityname={communityname}
-        dateFrom={startDate}
-        dateTo={endDate}
-      />
     </>
   ) : (
     <div>Invalid route</div>
