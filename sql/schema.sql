@@ -1,21 +1,10 @@
---
--- Name: communities; Type: TABLE; Schema: public; Owner: postgres
---
-
-CREATE TABLE public.communities (
+CREATE TABLE communities (
     name character varying NOT NULL,
     description text,
     id integer NOT NULL
 );
 
-
--- ALTER TABLE public.communities OWNER TO postgres;
-
---
--- Name: communities_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
---
-
-CREATE SEQUENCE public.communities_id_seq
+CREATE SEQUENCE communities_id_seq
     AS integer
     START WITH 1
     INCREMENT BY 1
@@ -23,34 +12,15 @@ CREATE SEQUENCE public.communities_id_seq
     NO MAXVALUE
     CACHE 1;
 
+ALTER SEQUENCE communities_id_seq OWNED BY communities.id;
 
--- ALTER TABLE public.communities_id_seq OWNER TO postgres;
-
---
--- Name: communities_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
---
-
-ALTER SEQUENCE public.communities_id_seq OWNED BY public.communities.id;
-
-
---
--- Name: players; Type: TABLE; Schema: public; Owner: postgres
---
-
-CREATE TABLE public.players (
+CREATE TABLE players (
     id integer NOT NULL,
     name character varying NOT NULL,
     "communityId" integer NOT NULL
 );
 
-
--- ALTER TABLE public.players OWNER TO postgres;
-
---
--- Name: players_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
---
-
-CREATE SEQUENCE public.players_id_seq
+CREATE SEQUENCE players_id_seq
     AS integer
     START WITH 1
     INCREMENT BY 1
@@ -58,21 +28,9 @@ CREATE SEQUENCE public.players_id_seq
     NO MAXVALUE
     CACHE 1;
 
+ALTER SEQUENCE players_id_seq OWNED BY players.id;
 
--- ALTER TABLE public.players_id_seq OWNER TO postgres;
-
---
--- Name: players_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
---
-
-ALTER SEQUENCE public.players_id_seq OWNED BY public.players.id;
-
-
---
--- Name: results; Type: TABLE; Schema: public; Owner: postgres
---
-
-CREATE TABLE public.results (
+CREATE TABLE results (
     date timestamp with time zone NOT NULL,
     "player1Id" integer NOT NULL,
     "player2Id" integer NOT NULL,
@@ -84,14 +42,7 @@ CREATE TABLE public.results (
     extratime boolean DEFAULT false NOT NULL
 );
 
-
--- ALTER TABLE public.results OWNER TO postgres;
-
---
--- Name: results_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
---
-
-CREATE SEQUENCE public.results_id_seq
+CREATE SEQUENCE results_id_seq
     AS integer
     START WITH 1
     INCREMENT BY 1
@@ -99,110 +50,37 @@ CREATE SEQUENCE public.results_id_seq
     NO MAXVALUE
     CACHE 1;
 
+ALTER SEQUENCE results_id_seq OWNED BY results.id;
 
--- ALTER TABLE public.results_id_seq OWNER TO postgres;
+ALTER TABLE ONLY communities ALTER COLUMN id SET DEFAULT nextval('communities_id_seq'::regclass);
 
---
--- Name: results_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
---
+ALTER TABLE ONLY players ALTER COLUMN id SET DEFAULT nextval('players_id_seq'::regclass);
 
-ALTER SEQUENCE public.results_id_seq OWNED BY public.results.id;
+ALTER TABLE ONLY results ALTER COLUMN id SET DEFAULT nextval('results_id_seq'::regclass);
 
-
---
--- Name: communities id; Type: DEFAULT; Schema: public; Owner: postgres
---
-
-ALTER TABLE ONLY public.communities ALTER COLUMN id SET DEFAULT nextval('public.communities_id_seq'::regclass);
-
-
---
--- Name: players id; Type: DEFAULT; Schema: public; Owner: postgres
---
-
-ALTER TABLE ONLY public.players ALTER COLUMN id SET DEFAULT nextval('public.players_id_seq'::regclass);
-
-
---
--- Name: results id; Type: DEFAULT; Schema: public; Owner: postgres
---
-
-ALTER TABLE ONLY public.results ALTER COLUMN id SET DEFAULT nextval('public.results_id_seq'::regclass);
-
-
---
--- Name: communities communities_name_key; Type: CONSTRAINT; Schema: public; Owner: postgres
---
-
-ALTER TABLE ONLY public.communities
+ALTER TABLE ONLY communities
     ADD CONSTRAINT communities_name_key UNIQUE (name);
 
-
---
--- Name: communities communities_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
---
-
-ALTER TABLE ONLY public.communities
+ALTER TABLE ONLY communities
     ADD CONSTRAINT communities_pkey PRIMARY KEY (id);
 
-
---
--- Name: players players_name_communityId_key; Type: CONSTRAINT; Schema: public; Owner: postgres
---
-
-ALTER TABLE ONLY public.players
+ALTER TABLE ONLY players
     ADD CONSTRAINT "players_name_communityId_key" UNIQUE (name, "communityId");
 
-
---
--- Name: players players_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
---
-
-ALTER TABLE ONLY public.players
+ALTER TABLE ONLY players
     ADD CONSTRAINT players_pkey PRIMARY KEY (id);
 
-
---
--- Name: results results_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
---
-
-ALTER TABLE ONLY public.results
+ALTER TABLE ONLY results
     ADD CONSTRAINT results_pkey PRIMARY KEY (id);
 
+ALTER TABLE ONLY players
+    ADD CONSTRAINT "players_communityId_fkey" FOREIGN KEY ("communityId") REFERENCES communities(id) ON UPDATE RESTRICT ON DELETE RESTRICT;
 
---
--- Name: players players_communityId_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
---
+ALTER TABLE ONLY results
+    ADD CONSTRAINT "results_communityId_fkey" FOREIGN KEY ("communityId") REFERENCES communities(id) ON UPDATE RESTRICT ON DELETE RESTRICT;
 
-ALTER TABLE ONLY public.players
-    ADD CONSTRAINT "players_communityId_fkey" FOREIGN KEY ("communityId") REFERENCES public.communities(id) ON UPDATE RESTRICT ON DELETE RESTRICT;
+ALTER TABLE ONLY results
+    ADD CONSTRAINT "results_player1Id_fkey" FOREIGN KEY ("player1Id") REFERENCES players(id) ON UPDATE RESTRICT ON DELETE RESTRICT;
 
-
---
--- Name: results results_communityId_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
---
-
-ALTER TABLE ONLY public.results
-    ADD CONSTRAINT "results_communityId_fkey" FOREIGN KEY ("communityId") REFERENCES public.communities(id) ON UPDATE RESTRICT ON DELETE RESTRICT;
-
-
---
--- Name: results results_player1Id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
---
-
-ALTER TABLE ONLY public.results
-    ADD CONSTRAINT "results_player1Id_fkey" FOREIGN KEY ("player1Id") REFERENCES public.players(id) ON UPDATE RESTRICT ON DELETE RESTRICT;
-
-
---
--- Name: results results_player2Id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
---
-
-ALTER TABLE ONLY public.results
-    ADD CONSTRAINT "results_player2Id_fkey" FOREIGN KEY ("player2Id") REFERENCES public.players(id) ON UPDATE RESTRICT ON DELETE RESTRICT;
-
-
---
--- PostgreSQL database dump complete
---
-
+ALTER TABLE ONLY results
+    ADD CONSTRAINT "results_player2Id_fkey" FOREIGN KEY ("player2Id") REFERENCES players(id) ON UPDATE RESTRICT ON DELETE RESTRICT;
