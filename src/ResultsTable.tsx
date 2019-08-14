@@ -15,6 +15,7 @@ import { containerStyle, numberCellStyle, playerLinkStyle } from "./styles";
 type Props = {
   results: readonly Result[];
   newResults?: readonly Result[];
+  mainPlayerName?: string;
   communityname: string;
 };
 
@@ -42,10 +43,21 @@ const extraTimeStyle: React.CSSProperties = {
   width: 20
 };
 
+const getHighlightedClassName = (
+  newResults: readonly Result[] | undefined,
+  currentResult: Result
+) =>
+  newResults && newResults.indexOf(currentResult) > -1 ? "highlighted" : "";
+
+const getWinningLosingRowClassName = (mainPlayerWon: boolean) => {
+  return mainPlayerWon ? "winning-row" : "";
+};
+
 export const ResultsTable: React.FC<Props> = ({
   results,
   newResults,
-  communityname: communityName
+  communityname: communityName,
+  mainPlayerName
 }) => (
   <>
     <Paper style={containerStyle}>
@@ -68,14 +80,18 @@ export const ResultsTable: React.FC<Props> = ({
           {results.map(r => {
             const player1Won = r.player1goals > r.player2goals;
             const player2Won = !player1Won;
+            const mainPlayerWon =
+              (player1Won && mainPlayerName === r.player1.name) ||
+              (player2Won && mainPlayerName === r.player2.name);
             const formattedDate = formatDate(new Date(r.date));
 
             return (
               <TableRow
                 key={r.id}
-                className={
-                  newResults && newResults.indexOf(r) > -1 ? "highlighted" : ""
-                }
+                className={`${getHighlightedClassName(
+                  newResults,
+                  r
+                )} ${getWinningLosingRowClassName(mainPlayerWon)}`}
               >
                 <TableCell style={headToHeadStyle}>
                   <Link
