@@ -6,6 +6,7 @@ import { PLAYER_RESULTS_QUERY } from "./queries";
 import { ResultsTable } from "./ResultsTable";
 import { Typography, Box, CircularProgress } from "@material-ui/core";
 import { getPlayerStats } from "./utils";
+import { StreakView } from "./StreakView";
 
 type Props = {
   playername: string;
@@ -40,7 +41,20 @@ export const PlayerResults: React.FC<RouteComponentProps<Props>> = ({
         <Typography>
           Total goals conceded: {playerStats.goalsConceded}
         </Typography>
+        {playerStats.streaks.longestStreak !== null ? (
+          <StreakView
+            streak={playerStats.streaks.longestStreak}
+            streakName="Longest winning streak"
+          />
+        ) : null}
+        {playerStats.streaks.currentStreak !== null ? (
+          <StreakView
+            streak={playerStats.streaks.currentStreak}
+            streakName="Ongoing winning streak"
+          />
+        ) : null}
       </Box>
+      {/* TODO: Highlight whole rows with wins and losses (red/green) */}
       <ResultsTable
         results={playerResultsQuery.data.results}
         communityname={communityname}

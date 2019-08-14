@@ -91,6 +91,7 @@ export const PLAYER_RESULTS_QUERY = gql`
           }
         ]
       }
+      order_by: { date: desc }
     ) {
       id
       player1 {
@@ -113,6 +114,7 @@ export type Result = {
   player2: Player;
   player1goals: number;
   player2goals: number;
+  // TODO: Date?
   date: string;
   extratime: boolean;
 };

@@ -31,7 +31,7 @@ type WinningLosingResult = {
   losingPlayer: Player;
   winningGoals: number;
   losingGoals: number;
-  date: string;
+  date: Date;
   extratime: boolean;
 };
 
@@ -40,6 +40,7 @@ const toWinningLosingResult = (result: Result): WinningLosingResult => {
   if (player1IsWinner) {
     return {
       ...result,
+      date: new Date(result.date),
       winningPlayer: result.player1,
       winningGoals: result.player1goals,
       losingPlayer: result.player2,
@@ -48,6 +49,7 @@ const toWinningLosingResult = (result: Result): WinningLosingResult => {
   }
   return {
     ...result,
+    date: new Date(result.date),
     winningPlayer: result.player2,
     winningGoals: result.player2goals,
     losingPlayer: result.player1,
@@ -55,11 +57,98 @@ const toWinningLosingResult = (result: Result): WinningLosingResult => {
   };
 };
 
+export type Streak = {
+  // TODO: Discriminated union?
+  numberOfMatches: number;
+  startedAt: Date;
+  endedAt: Date | null;
+  endedBy: Player | null;
+};
+
+type Streaks = {
+  longestStreak: Streak | null;
+  currentStreak: Streak | null;
+};
+
 type PlayerStats = {
   numberOfWins: number;
   numberOfLosses: number;
   goalsScored: number;
   goalsConceded: number;
+  streaks: Streaks;
+};
+
+const byDateOldestFirst = (
+  result1: WinningLosingResult,
+  result2: WinningLosingResult
+) => {
+  if (result1.date > result2.date) {
+    return 1;
+  }
+  if (result1.date < result2.date) {
+    return -1;
+  }
+  return 0;
+};
+
+const getWinningStreaks = (
+  playerName: string,
+  unsortedResults: readonly WinningLosingResult[]
+): Streaks => {
+  const sortedResults = unsortedResults.slice().sort(byDateOldestFirst);
+
+  if (
+    sortedResults.filter(r => r.winningPlayer.name === playerName).length === 0
+  ) {
+    return { currentStreak: null, longestStreak: null };
+  }
+
+  let longestStreakStartDate: Date = sortedResults[0].date;
+  let longestStreakEndDate: Date = sortedResults[0].date;
+  let currentStreakStartDate: Date = sortedResults[0].date;
+  let currentStreakEndDate: Date | null = null;
+  let longestStreakNumberOfMatches: number = 0;
+  let currentStreakNumberOfMatches: number = 0;
+  let longestStreakEndedBy: Player | null = null;
+
+  for (const result of sortedResults) {
+    if (result.winningPlayer.name === playerName) {
+      if (currentStreakNumberOfMatches === 0) {
+        // New streak has started
+        currentStreakStartDate = result.date;
+      }
+      currentStreakNumberOfMatches++;
+    }
+
+    if (result.losingPlayer.name === playerName) {
+      // Streak ended
+      if (currentStreakNumberOfMatches > longestStreakNumberOfMatches) {
+        // Update the longest streak
+        longestStreakNumberOfMatches = currentStreakNumberOfMatches;
+        longestStreakStartDate = currentStreakStartDate;
+        longestStreakEndDate = result.date;
+        longestStreakEndedBy = result.winningPlayer;
+      }
+      // Reset current streak
+      currentStreakNumberOfMatches = 0;
+      currentStreakEndDate = null;
+    }
+  }
+
+  return {
+    longestStreak: {
+      numberOfMatches: longestStreakNumberOfMatches,
+      startedAt: longestStreakStartDate,
+      endedAt: longestStreakEndDate,
+      endedBy: longestStreakEndedBy
+    },
+    currentStreak: {
+      numberOfMatches: currentStreakNumberOfMatches,
+      startedAt: currentStreakStartDate,
+      endedAt: currentStreakEndDate,
+      endedBy: null
+    }
+  };
 };
 
 export const getPlayerStats = (
@@ -93,11 +182,14 @@ export const getPlayerStats = (
     r => r.winningPlayer.name !== playername
   ).length;
 
+  const streaks = getWinningStreaks(playername, winningLosingResults);
+
   const playerStats: PlayerStats = winningLosingResults.reduce(addGoals, {
     numberOfWins,
     numberOfLosses,
     goalsScored: 0,
-    goalsConceded: 0
+    goalsConceded: 0,
+    streaks
   });
 
   return playerStats;
