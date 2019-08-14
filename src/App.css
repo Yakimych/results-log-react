@@ -15,6 +15,18 @@
   color: white;
 }
 
+.winning-row {
+  background-color: #00ff7338;
+}
+
+.marked {
+  font-weight: bold;
+}
+
+.date-time {
+  font-size: small;
+}
+
 .highlighted {
   background-color: #ffff6f;
   animation-name: fade;

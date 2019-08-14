@@ -54,9 +54,9 @@ export const PlayerResults: React.FC<RouteComponentProps<Props>> = ({
           />
         ) : null}
       </Box>
-      {/* TODO: Highlight whole rows with wins and losses (red/green) */}
       <ResultsTable
         results={playerResultsQuery.data.results}
+        mainPlayerName={playername}
         communityname={communityname}
       />
       <Link to={`/${communityname}`}>Back to Start Page</Link>
