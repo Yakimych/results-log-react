@@ -3,7 +3,7 @@ import { RouteComponentProps, Link } from "@reach/router";
 import { AddResult } from "./AddResult";
 import { Results } from "./Results";
 import { CommunityNameProps } from "./RouteProps";
-import { startOfWeek, endOfWeek } from "date-fns";
+import { startOfWeek, addWeeks } from "date-fns";
 import { ExpansionPanel, ExpansionPanelSummary, Fab } from "@material-ui/core";
 import AddIcon from "@material-ui/icons/Add";
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
@@ -14,7 +14,7 @@ export const AddResultPage: React.FC<
 > = ({ communityname }) => {
   const now = new Date();
   const startDate = startOfWeek(now, { weekStartsOn: 1 });
-  const endDate = endOfWeek(now);
+  const endDate = addWeeks(startDate, 1);
 
   return communityname ? (
     <>

@@ -4,7 +4,7 @@ import { Results } from "./Results";
 import { CommunityNameProps } from "./RouteProps";
 import { Box, TextField, Button, Typography } from "@material-ui/core";
 import { formatDate } from "./utils";
-import { addWeeks, startOfWeek, endOfWeek } from "date-fns";
+import { addWeeks, startOfWeek } from "date-fns";
 import { WeeklyLeaderboard } from "./WeeklyLeaderboard";
 
 export const ResultHistory: React.FC<
@@ -14,7 +14,7 @@ export const ResultHistory: React.FC<
   const incrementWeek = () => setDate(d => addWeeks(d, 1));
   const decrementWeek = () => setDate(d => addWeeks(d, -1));
   const startDate = startOfWeek(date, { weekStartsOn: 1 });
-  const endDate = endOfWeek(date, { weekStartsOn: 1 });
+  const endDate = addWeeks(startDate, 1);
 
   return communityname ? (
     <>
