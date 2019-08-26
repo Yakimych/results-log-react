@@ -1,3 +1,9 @@
+# MOVED TO https://github.com/Yakimych/result-log
+
+⚠️ This repo is kept as an archive.
+
+---
+
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
 ## Available Scripts
