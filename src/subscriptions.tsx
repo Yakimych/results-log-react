@@ -3,7 +3,9 @@ import { Result } from "./queries";
 
 export const NEW_RESULT_SUBSCRIPTION = gql`
   subscription newResult($communityname: String!) {
-    newest_result(where: { community: { name: { _eq: $communityname } } }) {
+    newestResults: newest_result(
+      where: { community: { name: { _eq: $communityname } } }
+    ) {
       player1 {
         name
       }
@@ -20,5 +22,5 @@ export const NEW_RESULT_SUBSCRIPTION = gql`
 `;
 
 export type NewestResults = {
-  data: { newest_result: ReadonlyArray<Result> };
+  data: { newestResults: readonly Result[] };
 };

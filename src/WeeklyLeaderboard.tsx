@@ -98,7 +98,7 @@ export const WeeklyLeaderboard: React.FC<Props> = ({
         prev,
         { subscriptionData }: { subscriptionData: NewestResults }
       ) => {
-        const newestResult = subscriptionData.data.newest_result[0];
+        const newestResult = subscriptionData.data.newestResults[0];
         const alreadyInList =
           newestResult && prev.results.filter(r => r.id === newestResult.id)[0];
         return {
