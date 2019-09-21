@@ -20,6 +20,7 @@ import {
 } from "./leaderboardUtils";
 import { Link } from "@reach/router";
 import { containerStyle, numberCellStyle, playerLinkStyle } from "./styles";
+import { NEW_RESULT_SUBSCRIPTION, NewestResults } from "./subscriptions";
 
 type Props = {
   dateFrom?: Date;
@@ -83,12 +84,29 @@ export const WeeklyLeaderboard: React.FC<Props> = ({
   dateFrom,
   dateTo
 }) => {
-  const { data, loading, error } = useQuery<ResultsQueryResponse>(
-    ALL_RESULTS_QUERY,
-    {
-      variables: { communityname, dateFrom, dateTo }
-    }
-  );
+  const { data, loading, error, subscribeToMore } = useQuery<
+    ResultsQueryResponse
+  >(ALL_RESULTS_QUERY, {
+    variables: { communityname, dateFrom, dateTo }
+  });
+
+  React.useEffect(() => {
+    subscribeToMore({
+      document: NEW_RESULT_SUBSCRIPTION,
+      variables: { communityname },
+      updateQuery: (
+        prev,
+        { subscriptionData }: { subscriptionData: NewestResults }
+      ) => {
+        const newestResult = subscriptionData.data.newest_result[0];
+        const alreadyInList =
+          newestResult && prev.results.filter(r => r.id === newestResult.id)[0];
+        return {
+          results: [...(alreadyInList ? [] : [newestResult]), ...prev.results]
+        };
+      }
+    });
+  }, [subscribeToMore, communityname]);
 
   const [sortBy, setSortBy] = React.useState<ColumnType>(
     ColumnType.WinsPerMatch
