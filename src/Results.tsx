@@ -1,9 +1,9 @@
 import React from "react";
-import { useQuery } from "react-apollo-hooks";
 import { ALL_RESULTS_QUERY, ResultsQueryResponse, Result } from "./queries";
 import { CircularProgress } from "@material-ui/core";
 import { CommunityNameProps } from "./RouteProps";
 import { ResultsTable } from "./ResultsTable";
+import { useQuery } from "@apollo/react-hooks";
 
 type Props = {
   dateFrom?: Date;

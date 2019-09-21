@@ -2,9 +2,9 @@ import React from "react";
 import ReactDOM from "react-dom";
 import "./index.css";
 import App from "./App";
-import { ApolloProvider } from "react-apollo-hooks";
 import ApolloClient from "apollo-boost";
 import "typeface-roboto";
+import { ApolloProvider } from "@apollo/react-hooks";
 
 const endpointUrl = `https://${process.env.REACT_APP_ENDPOINT_URL}`;
 

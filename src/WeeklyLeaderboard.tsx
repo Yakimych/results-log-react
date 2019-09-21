@@ -1,6 +1,7 @@
 import React from "react";
 import { ResultsQueryResponse, ALL_RESULTS_QUERY } from "./queries";
 import { CommunityNameProps } from "./RouteProps";
+import { useQuery } from "@apollo/react-hooks";
 import {
   CircularProgress,
   Paper,
@@ -12,7 +13,6 @@ import {
   TableSortLabel,
   Typography
 } from "@material-ui/core";
-import { useQuery } from "react-apollo-hooks";
 import {
   getLeaderboard,
   MIN_MATCHES_FOR_STATS,
@@ -83,9 +83,12 @@ export const WeeklyLeaderboard: React.FC<Props> = ({
   dateFrom,
   dateTo
 }) => {
-  const allResultsQuery = useQuery<ResultsQueryResponse>(ALL_RESULTS_QUERY, {
-    variables: { communityname, dateFrom, dateTo }
-  });
+  const { data, loading, error } = useQuery<ResultsQueryResponse>(
+    ALL_RESULTS_QUERY,
+    {
+      variables: { communityname, dateFrom, dateTo }
+    }
+  );
 
   const [sortBy, setSortBy] = React.useState<ColumnType>(
     ColumnType.WinsPerMatch
@@ -94,11 +97,11 @@ export const WeeklyLeaderboard: React.FC<Props> = ({
     "desc"
   );
 
-  if (allResultsQuery.loading) return <CircularProgress />;
-  if (allResultsQuery.error) return <p>Error!</p>;
-  if (allResultsQuery.data === undefined) return <p>Data is undefined</p>;
+  if (loading) return <CircularProgress />;
+  if (error) return <p>Error!</p>;
+  if (data === undefined) return <p>Data is undefined</p>;
 
-  const results = allResultsQuery.data.results;
+  const results = data.results;
   const leaderboardRows = getLeaderboard(results)
     .filter(r => r.matchesWon + r.matchesLost >= MIN_MATCHES_FOR_STATS)
     .sort(getSortFunc(sortBy, sortDirection));

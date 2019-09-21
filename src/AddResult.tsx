@@ -1,5 +1,4 @@
 import React from "react";
-import { useQuery, useMutation } from "react-apollo-hooks";
 import {
   PlayersQueryResponse,
   ALL_PLAYERS_QUERY,
@@ -17,6 +16,7 @@ import { formatDate, withCurrentTime } from "./utils";
 import { GoalsPicker } from "./GoalsPicker";
 import { CommunityNameProps } from "./RouteProps";
 import { PlayerPicker } from "./PlayerPicker";
+import { useQuery, useMutation } from "@apollo/react-hooks";
 
 type Props = {
   dateFrom?: Date;

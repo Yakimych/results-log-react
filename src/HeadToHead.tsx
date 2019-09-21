@@ -1,12 +1,12 @@
 import React from "react";
 import { RouteComponentProps, Link } from "@reach/router";
 import { CommunityNameProps } from "./RouteProps";
-import { useQuery } from "react-apollo-hooks";
 import { ResultsQueryResponse, HEAD_TO_HEAD_QUERY } from "./queries";
 import { ResultsTable } from "./ResultsTable";
 import { Typography, Box, CircularProgress } from "@material-ui/core";
 import { getPlayerStats } from "./utils";
 import ReactMinimalPieChart from "react-minimal-pie-chart";
+import { useQuery } from "@apollo/react-hooks";
 
 type Props = {
   player1name: string;
