@@ -2,11 +2,12 @@ import React from "react";
 import { RouteComponentProps, Link } from "@reach/router";
 import { CommunityNameProps } from "./RouteProps";
 import { useQuery } from "react-apollo-hooks";
-import { ResultsQueryResponse, HEAD_TO_HEAD_QUERY } from "./queries";
+import { HEAD_TO_HEAD_QUERY } from "./queries";
 import { ResultsTable } from "./ResultsTable";
 import { Typography, Box, CircularProgress } from "@material-ui/core";
 import { getPlayerStats } from "./utils";
 import ReactMinimalPieChart from "react-minimal-pie-chart";
+import { HeadToHeadResults } from "./__generated__/HeadToHeadResults";
 
 type Props = {
   player1name: string;
@@ -18,7 +19,7 @@ export const HeadToHead: React.FC<RouteComponentProps<Props>> = ({
   player2name,
   communityname
 }) => {
-  const headToHeadQuery = useQuery<ResultsQueryResponse>(HEAD_TO_HEAD_QUERY, {
+  const headToHeadQuery = useQuery<HeadToHeadResults>(HEAD_TO_HEAD_QUERY, {
     variables: { communityname, player1name, player2name }
   });
 

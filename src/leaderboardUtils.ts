@@ -1,4 +1,4 @@
-import { Result } from "./queries";
+import { AllResults_results as Results } from "./__generated__/AllResults";
 
 type LeaderboardRow = {
   playerName: string;
@@ -65,7 +65,7 @@ const toExtendedLeaderboardRow = (
 };
 
 export const getLeaderboard = (
-  results: readonly Result[]
+  results: readonly Results[]
 ): readonly ExtendedLeaderboardRow[] => {
   const rowMap: Map<string, LeaderboardRow> = new Map<string, LeaderboardRow>();
 

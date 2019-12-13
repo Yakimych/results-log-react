@@ -1,23 +1,19 @@
 import { gql } from "apollo-boost";
 
 export const ALL_PLAYERS_QUERY = gql`
-  query getPlayers($communityname: String!) {
+  query Players($communityname: String!) {
     players(where: { community: { name: { _eq: $communityname } } }) {
       name
     }
   }
 `;
 
-export type Player = {
-  name: string;
-};
-
-export type PlayersQueryResponse = {
-  players: readonly Player[];
-};
-
 export const ALL_RESULTS_QUERY = gql`
-  query($communityname: String!, $dateFrom: timestamptz, $dateTo: timestamptz) {
+  query AllResults(
+    $communityname: String!
+    $dateFrom: timestamptz
+    $dateTo: timestamptz
+  ) {
     results(
       where: {
         community: { name: { _eq: $communityname } }
@@ -41,7 +37,11 @@ export const ALL_RESULTS_QUERY = gql`
 `;
 
 export const HEAD_TO_HEAD_QUERY = gql`
-  query($communityname: String!, $player1name: String!, $player2name: String!) {
+  query HeadToHeadResults(
+    $communityname: String!
+    $player1name: String!
+    $player2name: String!
+  ) {
     results(
       where: {
         _and: [
@@ -78,7 +78,7 @@ export const HEAD_TO_HEAD_QUERY = gql`
 `;
 
 export const PLAYER_RESULTS_QUERY = gql`
-  query playerResults($communityname: String!, $playername: String!) {
+  query PlayerResults($communityname: String!, $playername: String!) {
     results(
       where: {
         _and: [
@@ -107,18 +107,3 @@ export const PLAYER_RESULTS_QUERY = gql`
     }
   }
 `;
-
-export type Result = {
-  id: number;
-  player1: Player;
-  player2: Player;
-  player1goals: number;
-  player2goals: number;
-  // TODO: Date?
-  date: string;
-  extratime: boolean;
-};
-
-export type ResultsQueryResponse = {
-  results: readonly Result[];
-};
