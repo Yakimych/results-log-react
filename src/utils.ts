@@ -9,8 +9,8 @@ import {
   getSeconds
 } from "date-fns";
 
-export const formatDate = (date: Date) => format(date, "YYYY-MM-DD");
-export const formatDateTime = (date: Date) => format(date, "YYYY-MM-DD HH:mm");
+export const formatDate = (date: Date) => format(date, "yyyy-MM-dd");
+export const formatDateTime = (date: Date) => format(date, "yyyy-MM-dd HH:mm");
 
 export const withCurrentTime = (date: Date, now: Date) => {
   const dateWithCurrentHours = setHours(date, getHours(now));
