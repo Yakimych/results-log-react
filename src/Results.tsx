@@ -1,5 +1,5 @@
 import React from "react";
-import { useQuery } from "@apollo/react-hooks";
+import { useQuery, useMutation } from "@apollo/react-hooks";
 import { ALL_RESULTS_QUERY } from "./queries";
 import { CircularProgress } from "@material-ui/core";
 import { CommunityNameProps } from "./RouteProps";
@@ -8,6 +8,7 @@ import {
   AllResults_results as Result,
   AllResults
 } from "./__generated__/AllResults";
+import { SET_USER_NAME } from "./localState";
 
 type Props = {
   dateFrom?: Date;
@@ -42,15 +43,27 @@ export const Results: React.FC<Props> = ({
     }
   }, [allResultsQuery.data]);
 
+  // TODO: Type for mutation
+  const [mutate] = useMutation(SET_USER_NAME, {
+    variables: { userName: "Test2" }
+  });
+
+  const setUserName = () => {
+    mutate();
+  };
+
   if (allResultsQuery.loading) return <CircularProgress />;
   if (allResultsQuery.error) return <p>Error!</p>;
   if (allResultsQuery.data === undefined) return <p>Data is undefined</p>;
 
   return (
-    <ResultsTable
-      communityname={communityname}
-      results={allResultsQuery.data.results}
-      newResults={highlightNewResults ? newResults : []}
-    />
+    <>
+      <button onClick={setUserName}>Test</button>
+      <ResultsTable
+        communityname={communityname}
+        results={allResultsQuery.data.results}
+        newResults={highlightNewResults ? newResults : []}
+      />
+    </>
   );
 };

@@ -1,4 +1,5 @@
 import gql from "graphql-tag";
+import { USER_INFO } from "./localState";
 
 export const typeDefs = gql`
   extend type query_root {
@@ -10,4 +11,17 @@ export const typeDefs = gql`
   }
 `;
 
-export const resolvers = {};
+// TODO: Typings
+export const resolvers = {
+  Mutation: {
+    setUserInfo: (
+      _: any,
+      { userName }: { userName: string | null },
+      { cache }: { cache: any }
+    ) => {
+      cache.readQuery({ query: USER_INFO });
+      cache.writeQuery({ query: USER_INFO, data: { userName } });
+      return userName;
+    }
+  }
+};

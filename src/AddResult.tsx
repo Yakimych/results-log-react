@@ -14,6 +14,8 @@ import { GoalsPicker } from "./GoalsPicker";
 import { CommunityNameProps } from "./RouteProps";
 import { PlayerPicker } from "./PlayerPicker";
 import { Players } from "./__generated__/Players";
+import { USER_INFO } from "./localState";
+import { UserInfo } from "./__generated__/UserInfo";
 
 type Props = {
   dateFrom?: Date;
@@ -113,6 +115,11 @@ export const AddResult: React.FC<Props> = ({
     }
   };
 
+  const { data: userInfo } = useQuery<UserInfo>(USER_INFO);
+
+  const headerText =
+    userInfo?.userName !== null ? userInfo?.userName : "No saved user";
+
   if (loading) return <p>Loading...</p>;
   if (error) return <p>Error!</p>;
   if (data === undefined) return <p>Data is undefined</p>;
@@ -121,6 +128,7 @@ export const AddResult: React.FC<Props> = ({
 
   return (
     <Paper style={{ width: 550, marginBottom: 30 }}>
+      <header className="App-header">Result log: {headerText}</header>
       <div style={{ display: "flex" }}>
         <PlayerPicker
           disabled={isAddingResult}

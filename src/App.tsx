@@ -6,18 +6,10 @@ import { AddResultPage } from "./AddResultPage";
 import { HeadToHead } from "./HeadToHead";
 import { PlayerResults } from "./PlayerResults";
 import { ResultHistory } from "./ResultHistory";
-import { useQuery } from "@apollo/react-hooks";
-import { USER_INFO } from "./localQueries";
-import { UserInfo } from "./__generated__/UserInfo";
 
 const App: React.FC = () => {
-  const { data } = useQuery<UserInfo>(USER_INFO);
-
-  const headerText = data?.userName !== null ? data?.userName : "No saved user";
-
   return (
     <div className="App">
-      <header className="App-header">Result log: {headerText}</header>
       <Router>
         <Home path="/" />
         <AddResultPage path=":communityname" />
