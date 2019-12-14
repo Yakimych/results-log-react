@@ -1,4 +1,3 @@
-import { Result, Player } from "./queries";
 import {
   format,
   getHours,
@@ -8,6 +7,8 @@ import {
   setSeconds,
   getSeconds
 } from "date-fns";
+import { AllResults_results as Result } from "./__generated__/AllResults";
+import { Players_players as Player } from "./__generated__/Players";
 
 export const formatDate = (date: Date) => format(date, "yyyy-MM-dd");
 export const formatDateTime = (date: Date) => format(date, "yyyy-MM-dd HH:mm");

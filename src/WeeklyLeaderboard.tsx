@@ -1,5 +1,5 @@
 import React from "react";
-import { ResultsQueryResponse, ALL_RESULTS_QUERY } from "./queries";
+import { ALL_RESULTS_QUERY } from "./queries";
 import { CommunityNameProps } from "./RouteProps";
 import {
   CircularProgress,
@@ -20,6 +20,7 @@ import {
 } from "./leaderboardUtils";
 import { Link } from "@reach/router";
 import { containerStyle, numberCellStyle, playerLinkStyle } from "./styles";
+import { AllResults } from "./__generated__/AllResults";
 
 type Props = {
   dateFrom?: Date;
@@ -83,7 +84,7 @@ export const WeeklyLeaderboard: React.FC<Props> = ({
   dateFrom,
   dateTo
 }) => {
-  const allResultsQuery = useQuery<ResultsQueryResponse>(ALL_RESULTS_QUERY, {
+  const allResultsQuery = useQuery<AllResults>(ALL_RESULTS_QUERY, {
     variables: { communityname, dateFrom, dateTo }
   });
 

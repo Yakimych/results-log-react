@@ -1,9 +1,13 @@
 import React from "react";
 import { useQuery } from "react-apollo-hooks";
-import { ALL_RESULTS_QUERY, ResultsQueryResponse, Result } from "./queries";
+import { ALL_RESULTS_QUERY } from "./queries";
 import { CircularProgress } from "@material-ui/core";
 import { CommunityNameProps } from "./RouteProps";
 import { ResultsTable } from "./ResultsTable";
+import {
+  AllResults_results as Result,
+  AllResults
+} from "./__generated__/AllResults";
 
 type Props = {
   dateFrom?: Date;
@@ -21,7 +25,7 @@ export const Results: React.FC<Props> = ({
 
   const [newResults, setNewResults] = React.useState<readonly Result[]>([]);
 
-  const allResultsQuery = useQuery<ResultsQueryResponse>(ALL_RESULTS_QUERY, {
+  const allResultsQuery = useQuery<AllResults>(ALL_RESULTS_QUERY, {
     variables: { communityname, dateFrom, dateTo }
   });
 

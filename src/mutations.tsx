@@ -1,7 +1,7 @@
 import { gql } from "apollo-boost";
 
 export const ADD_RESULT_MUTATION = gql`
-  mutation addResult(
+  mutation AddResult(
     $communityname: String!
     $player1name: String!
     $player2name: String!

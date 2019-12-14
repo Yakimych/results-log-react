@@ -1,5 +1,4 @@
 import React from "react";
-import { Result } from "./queries";
 import {
   Table,
   TableBody,
@@ -11,6 +10,7 @@ import {
 import { formatDate } from "./utils";
 import { Link } from "@reach/router";
 import { containerStyle, numberCellStyle, playerLinkStyle } from "./styles";
+import { AllResults_results as Result } from "./__generated__/AllResults";
 
 type Props = {
   results: readonly Result[];

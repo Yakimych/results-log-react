@@ -1,10 +1,6 @@
 import React from "react";
 import { useQuery, useMutation } from "react-apollo-hooks";
-import {
-  PlayersQueryResponse,
-  ALL_PLAYERS_QUERY,
-  ALL_RESULTS_QUERY
-} from "./queries";
+import { ALL_PLAYERS_QUERY, ALL_RESULTS_QUERY } from "./queries";
 import {
   Paper,
   TextField,
@@ -17,6 +13,7 @@ import { formatDate, withCurrentTime } from "./utils";
 import { GoalsPicker } from "./GoalsPicker";
 import { CommunityNameProps } from "./RouteProps";
 import { PlayerPicker } from "./PlayerPicker";
+import { Players } from "./__generated__/Players";
 
 type Props = {
   dateFrom?: Date;
@@ -28,10 +25,9 @@ export const AddResult: React.FC<Props> = ({
   dateFrom,
   dateTo
 }) => {
-  const { data, error, loading } = useQuery<PlayersQueryResponse>(
-    ALL_PLAYERS_QUERY,
-    { variables: { communityname } }
-  );
+  const { data, error, loading } = useQuery<Players>(ALL_PLAYERS_QUERY, {
+    variables: { communityname }
+  });
 
   const [addResultMutation] = useMutation(ADD_RESULT_MUTATION, {
     refetchQueries: [
