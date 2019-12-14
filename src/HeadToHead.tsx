@@ -1,7 +1,7 @@
 import React from "react";
 import { RouteComponentProps, Link } from "@reach/router";
 import { CommunityNameProps } from "./RouteProps";
-import { useQuery } from "react-apollo-hooks";
+import { useQuery } from "@apollo/react-hooks";
 import { HEAD_TO_HEAD_QUERY } from "./queries";
 import { ResultsTable } from "./ResultsTable";
 import { Typography, Box, CircularProgress } from "@material-ui/core";

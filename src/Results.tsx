@@ -1,5 +1,5 @@
 import React from "react";
-import { useQuery } from "react-apollo-hooks";
+import { useQuery } from "@apollo/react-hooks";
 import { ALL_RESULTS_QUERY } from "./queries";
 import { CircularProgress } from "@material-ui/core";
 import { CommunityNameProps } from "./RouteProps";

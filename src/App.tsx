@@ -6,7 +6,7 @@ import { AddResultPage } from "./AddResultPage";
 import { HeadToHead } from "./HeadToHead";
 import { PlayerResults } from "./PlayerResults";
 import { ResultHistory } from "./ResultHistory";
-import { useQuery } from "react-apollo-hooks";
+import { useQuery } from "@apollo/react-hooks";
 import { USER_INFO } from "./localQueries";
 import { UserInfo } from "./__generated__/UserInfo";
 

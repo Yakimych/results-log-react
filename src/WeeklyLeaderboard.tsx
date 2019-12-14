@@ -12,7 +12,7 @@ import {
   TableSortLabel,
   Typography
 } from "@material-ui/core";
-import { useQuery } from "react-apollo-hooks";
+import { useQuery } from "@apollo/react-hooks";
 import {
   getLeaderboard,
   MIN_MATCHES_FOR_STATS,

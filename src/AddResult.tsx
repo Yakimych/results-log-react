@@ -1,5 +1,5 @@
 import React from "react";
-import { useQuery, useMutation } from "react-apollo-hooks";
+import { useQuery, useMutation } from "@apollo/react-hooks";
 import { ALL_PLAYERS_QUERY, ALL_RESULTS_QUERY } from "./queries";
 import {
   Paper,
