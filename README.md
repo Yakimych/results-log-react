@@ -48,3 +48,14 @@ You don’t have to ever use `eject`. The curated feature set is suitable for sm
 You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
 
 To learn React, check out the [React documentation](https://reactjs.org/).
+
+## Apollo Local State experiment
+
+### The following steps are to be performed in order to update the local schema and corresponding type definitions:
+
+1. Open `apollo.config.js`, comment out the line with `localSchemaFile` and `excludes["src/resolvers.ts"]`
+2. Update the typedefs in `resolvers.ts`
+3. Run `apollo client:download-schema --endpoint https://endpoint_url/`
+4. Update the queries using the local schema (e.g. `USER_INFO` in `localState.tsx`
+5. Run `apollo client:codegen --target=typescript`
+6. Open `apollo.config.js` and uncomment the lines commented out in Step 1

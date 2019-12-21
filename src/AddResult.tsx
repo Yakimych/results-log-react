@@ -117,8 +117,15 @@ export const AddResult: React.FC<Props> = ({
 
   const { data: userInfo } = useQuery<UserInfo>(USER_INFO);
 
-  const headerText =
-    userInfo?.userName !== null ? userInfo?.userName : "No saved user";
+  const getHeaderText = (userInfo?: UserInfo) => {
+    if (userInfo === undefined || userInfo.userName === null) {
+      return "No saved user";
+    }
+
+    return `${userInfo.userName}: ${userInfo.userAge}`;
+  };
+
+  const headerText = getHeaderText(userInfo);
 
   if (loading) return <p>Loading...</p>;
   if (error) return <p>Error!</p>;

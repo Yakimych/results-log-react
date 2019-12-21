@@ -14,7 +14,8 @@ const client = new ApolloClient({ uri: endpointUrl, resolvers, typeDefs });
 
 client.cache.writeData<UserInfo>({
   data: {
-    userName: null
+    userName: null,
+    userAge: null
   }
 });
 
