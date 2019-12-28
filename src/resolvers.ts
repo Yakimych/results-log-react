@@ -1,6 +1,8 @@
 import gql from "graphql-tag";
 import { USER_INFO } from "./localState";
 import { UserInfo } from "./__generated__/UserInfo";
+import { Resolvers } from "apollo-boost";
+import { ApolloCache } from "apollo-cache";
 
 export const typeDefs = gql`
   extend type query_root {
@@ -14,9 +16,13 @@ export const typeDefs = gql`
 `;
 
 // TODO: Typings
-export const resolvers = {
+export const resolvers: Resolvers = {
   Mutation: {
-    setUserInfo: (_: any, userInfo: UserInfo, { cache }: { cache: any }) => {
+    setUserInfo: (
+      _: any,
+      userInfo: UserInfo,
+      { cache }: { cache: ApolloCache<UserInfo> }
+    ) => {
       cache.readQuery({ query: USER_INFO });
       cache.writeQuery({
         query: USER_INFO,
